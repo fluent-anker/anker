@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#090d16">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Anker Focus</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #131c2e;
+      --card-border: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-rgb: 56, 189, 248;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    
+    /* Headers & Typography */
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--card-border); margin-bottom: 1.5rem; }
+    h1 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+    h1 span { color: var(--accent); }
+    .badge { font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 0.25rem 0.6rem; border-radius: 999px; font-weight: 600; }
+
+    /* Cards */
+    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; margin-bottom: 1.25rem; }
+    
+    /* Input & Actions */
+    .input-wrapper { position: relative; margin-bottom: 0.75rem; }
+    textarea, input[type="text"] { width: 100%; background: #060911; border: 1.5px solid var(--card-border); border-radius: 0.85rem; color: var(--text); padding: 0.85rem 3rem 0.85rem 0.85rem; font-size: 1rem; resize: none; outline: none; }
+    textarea:focus, input[type="text"]:focus { border-color: var(--accent); }
+    .mic-btn { position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.3rem; color: var(--text-muted); cursor: pointer; padding: 0.25rem; }
+    .mic-btn.recording { color: var(--danger); animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+    /* Buttons */
+    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.85rem; border-radius: 0.85rem; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
+    .btn-primary { background: var(--accent); color: #041019; }
+    .btn-secondary { background: #1e293b; color: var(--text); }
+    .btn-success { background: var(--success); color: #022316; }
+    .btn-warning { background: var(--warning); color: #261601; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn:active { transform: scale(0.98); }
+
+    /* Ophak Box */
+    .micro-box { background: rgba(56, 189, 248, 0.08); border: 1px dashed var(--accent); border-radius: 1rem; padding: 1rem; margin-top: 0.75rem; display: none; }
+    .micro-box.active { display: block; }
+    .micro-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .micro-title { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
+    .micro-refresh { background: none; border: none; color: var(--text-muted); font-size: 1.1rem; cursor: pointer; }
+    .micro-text { font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; }
+
+    /* Nu-Dashboard (Active Focus) */
+    #dashboard-view { display: none; flex-direction: column; justify-content: space-between; flex: 1; }
+    .focus-display { text-align: center; margin: auto 0; padding: 2rem 0; }
+    .focus-label { font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; font-weight: 700; }
+    .focus-task { font-size: 1.85rem; font-weight: 800; line-height: 1.25; margin-bottom: 1.5rem; color: #ffffff; }
+    .timer { font-size: 3.5rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--text); margin-bottom: 1.5rem; }
+    .wake-lock-status { font-size: 0.75rem; color: var(--success); display: inline-flex; align-items: center; gap: 0.35rem; }
+    .dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+
+    /* Floating & Modals */
+    .park-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 62px; height: 62px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.7rem; display: none; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; z-index: 100; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1.25rem; z-index: 200; }
+    .modal { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; width: 100%; max-width: 400px; }
+    .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+
+    /* Lists & Tables */
+    .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.85rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+    .list-item-title { font-weight: 600; margin-bottom: 0.2rem; }
+    .list-item-sub { font-size: 0.75rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- START VIEW -->
+  <div id="start-view">
+    <header>
+      <h1>Anker<span>.</span></h1>
+      <span class="badge">Pixel Focus</span>
+    </header>
+
+    <div class="card">
+      <div class="input-wrapper">
+        <textarea id="task-input" rows="2" placeholder="Wat wil je doen? (typ of spreek in)"></textarea>
+        <button id="mic-main" class="mic-btn" title="Inspreken">🎙️</button>
+      </div>
+
+      <button id="breakdown-btn" class="btn btn-secondary" style="margin-bottom: 0.75rem;">
+        ✂️ Knip op naar KGD (< 2 min)
+      </button>
+
+      <div id="micro-box" class="micro-box">
+        <div class="micro-header">
+          <span class="micro-title">Eerste Micro-Stap</span>
+          <button id="refresh-micro-btn" class="micro-refresh" title="Ander stapje">🔄</button>
+        </div>
+        <div id="micro-text" class="micro-text" contenteditable="true"></div>
+      </div>
+
+      <button id="start-focus-btn" class="btn btn-primary" style="margin-top: 1rem;">
+        ▶ Start Nu
+      </button>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <h2 style="font-size: 1rem; font-weight: 700;">Geparkeerde Gedachten</h2>
+        <button id="export-csv-btn" class="btn btn-secondary" style="width: auto; padding: 0.35rem 0.65rem; font-size: 0.75rem;">
+          📥 Exporteer CSV
+        </button>
+      </div>
+      <div id="thought-list"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD VIEW (ALWAYS-ON FOCUS) -->
+  <div id="dashboard-view">
+    <header>
+      <div class="wake-lock-status">
+        <span style="font-size: 0.6rem;">🟢</span> Scherm blijft actief
+      </div>
+      <span class="badge" id="active-tag">Focus</span>
+    </header>
+
+    <div class="focus-display">
+      <div class="focus-label">Huidige Micro-Actie</div>
+      <div class="focus-task" id="active-task-label">Taak ophalen...</div>
+      <div class="timer" id="timer-display">00:00</div>
+    </div>
+
+    <div>
+      <div class="dashboard-actions">
+        <button id="done-btn" class="btn btn-success">
+          🟢 Klaar! (+1 KGD)
+        </button>
+        <button id="pause-btn" class="btn btn-warning">
+          🟡 Niet af / Pauze
+        </button>
+      </div>
+      <button id="cancel-btn" class="btn btn-secondary" style="background: transparent; color: var(--text-muted); font-size: 0.85rem;">
+        Afbreken zonder opslaan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Parkeer-knop -->
+<button id="floating-park-btn" class="park-btn" title="Parkeer gedachte">🧠</button>
+
+<!-- Parkeer Modal -->
+<div id="park-modal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-title">🧠 Gedachtendump</div>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+      Timer loopt door. Dumpt het uit je hoofd en ga direct weer verder.
+    </p>
+    <div class="input-wrapper">
+      <input type="text" id="park-input" placeholder="Wat popt er net op?">
+      <button id="mic-park" class="mic-btn" title="Inspreken">🎙️</button>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.75rem;">
+      <button id="save-park-btn" class="btn btn-primary">Parkeren</button>
+      <button id="close-park-btn" class="btn btn-secondary">Sluiten</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// --- State & Storage ---
+let activeTask = "";
+let timerInterval = null;
+let secondsElapsed = 0;
+let wakeLock = null;
+let currentSuggestions = [];
+let suggestionIndex = 0;
+
+const STORAGE_LOGS = "anker_focus_log";
+const STORAGE_THOUGHTS = "anker_thoughts";
+
+function getStorage(key) { return JSON.parse(localStorage.getItem(key) || "[]"); }
+function setStorage(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+// --- Offline KGD Ophak Heuristiek ---
+const microRules = [
+  { match: /mail|bericht|app|bel|contact|vragen/i, steps: [
+    "Open je mail/telefoon en zoek alleen de naam van de ontvanger op.",
+    "Typ alleen de allereerste zin van het bericht.",
+    "Noteer het e-mailadres of nummer op een kladblaadje."
+  ]},
+  { match: /koop|haal|melk|supermarkt|winkel|boodschap/i, steps: [
+    "Schrijf direct alleen het eerste benodigde item op papier.",
+    "Zet je schoenen en sleutels alvast klaar bij de deur.",
+    "Kijk in de koelkast/kast en controleer alleen dit ene item."
+  ]},
+  { match: /opruim|schoon|was|stofzuig|afwas|vaat/i, steps: [
+    "Zet exact één rondslingerend voorwerp terug op zijn vaste plek.",
+    "Zet alleen de vaatwasser of wasmand open.",
+    "Gooi 1 stuk afval in de prullenbak."
+  ]},
+  { match: /schrijf|verslag|document|rapport|typ|studeer|lees/i, steps: [
+    "Open een leeg document en typ alleen de titel bovenaan.",
+    "Lees alleen de allereerste zin of alinea.",
+    "Noteer drie losse steekwoorden over het onderwerp."
+  ]},
+  { match: /administratie|factuur|betaal|rekening|belasting/i, steps: [
+    "Log alleen in op de bank of website en doe nog niets anders.",
+    "Leg de factuur of brief open voor je op je bureau.",
+    "Open de downloadmap op je computer."
+  ]}
+];
+
+const fallbackSteps = [
+  "Open de benodigde app of spullen en kijk er 30 seconden rustig naar.",
+  "Zet een glas water op je bureau en neem 1 diepe ademhaling.",
+  "Schrijf de allereerste 60-seconden actie op een leeg blaadje."
+];
+
+function generateMicroSteps(task) {
+  for (const rule of microRules) {
+    if (rule.match.test(task)) return rule.steps;
+  }
+  return fallbackSteps;
+}
+
+// --- DOM Elements ---
+const startView = document.getElementById("start-view");
+const dashboardView = document.getElementById("dashboard-view");
+const taskInput = document.getElementById("task-input");
+const breakdownBtn = document.getElementById("breakdown-btn");
+const microBox = document.getElementById("micro-box");
+const microText = document.getElementById("micro-text");
+const refreshMicroBtn = document.getElementById("refresh-micro-btn");
+const startFocusBtn = document.getElementById("start-focus-btn");
+const timerDisplay = document.getElementById("timer-display");
+const activeTaskLabel = document.getElementById("active-task-label");
+const doneBtn = document.getElementById("done-btn");
+const pauseBtn = document.getElementById("pause-btn");
+const cancelBtn = document.getElementById("cancel-btn");
+const floatingParkBtn = document.getElementById("floating-park-btn");
+const parkModal = document.getElementById("park-modal");
+const parkInput = document.getElementById("park-input");
+const saveParkBtn = document.getElementById("save-park-btn");
+const closeParkBtn = document.getElementById("close-park-btn");
+const thoughtList = document.getElementById("thought-list");
+const exportCsvBtn = document.getElementById("export-csv-btn");
+
+// --- Wake Lock (Screen Always-On) ---
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+    }
+  } catch (err) {
+    console.warn("WakeLock fout:", err);
+  }
+}
+function releaseWakeLock() {
+  if (wakeLock) {
+    wakeLock.release().then(() => wakeLock = null);
+  }
+}
+
+// --- Spraakherkenning (Speech-to-Text) ---
+function setupSpeech(btn, inputElem) {
+  const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Speech) {
+    btn.style.display = 'none';
+    return;
+  }
+  const recog = new Speech();
+  recog.lang = 'nl-NL';
+  recog.continuous = false;
+  recog.interimResults = false;
+
+  btn.onclick = () => {
+    btn.classList.add('recording');
+    recog.start();
+  };
+  recog.onresult = (e) => {
+    const text = e.results[0][0].transcript;
+    inputElem.value = inputElem.value ? inputElem.value + " " + text : text;
+    btn.classList.remove('recording');
+  };
+  recog.onerror = () => btn.classList.remove('recording');
+  recog.onend = () => btn.classList.remove('recording');
+}
+setupSpeech(document.getElementById("mic-main"), taskInput);
+setupSpeech(document.getElementById("mic-park"), parkInput);
+
+// --- Ophakken Flow ---
+breakdownBtn.onclick = () => {
+  const val = taskInput.value.trim();
+  if (!val) return;
+  currentSuggestions = generateMicroSteps(val);
+  suggestionIndex = 0;
+  microText.innerText = currentSuggestions[0];
+  microBox.classList.add("active");
+};
+
+refreshMicroBtn.onclick = () => {
+  if (!currentSuggestions.length) return;
+  suggestionIndex = (suggestionIndex + 1) % currentSuggestions.length;
+  microText.innerText = currentSuggestions[suggestionIndex];
+};
+
+// --- Timer & Dashboard Flow ---
+function formatTime(sec) {
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = (sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+startFocusBtn.onclick = async () => {
+  let chosen = microBox.classList.contains("active") ? microText.innerText.trim() : taskInput.value.trim();
+  if (!chosen) chosen = taskInput.value.trim();
+  if (!chosen) return;
+
+  activeTask = chosen;
+  activeTaskLabel.innerText = activeTask;
+  secondsElapsed = 0;
+  timerDisplay.innerText = "00:00";
+
+  startView.style.display = "none";
+  dashboardView.style.display = "flex";
+  floatingParkBtn.style.display = "flex";
+
+  await requestWakeLock();
+  timerInterval = setInterval(() => {
+    secondsElapsed++;
+    timerDisplay.innerText = formatTime(secondsElapsed);
+  }, 1000);
+};
+
+function endSession(status) {
+  clearInterval(timerInterval);
+  releaseWakeLock();
+
+  const logs = getStorage(STORAGE_LOGS);
+  logs.unshift({
+    date: new Date().toLocaleString('nl-NL'),
+    task: activeTask,
+    duration: formatTime(secondsElapsed),
+    seconds: secondsElapsed,
+    status: status
+  });
+  setStorage(STORAGE_LOGS, logs);
+
+  dashboardView.style.display = "none";
+  floatingParkBtn.style.display = "none";
+  startView.style.display = "block";
+  microBox.classList.remove("active");
+  taskInput.value = "";
+  renderThoughts();
+}
+
+doneBtn.onclick = () => endSession("Afgerond (KGD)");
+pauseBtn.onclick = () => {
+  const thoughts = getStorage(STORAGE_THOUGHTS);
+  thoughts.unshift({ id: Date.now(), text: activeTask + " (Nog afmaken)", status: "Open" });
+  setStorage(STORAGE_THOUGHTS, thoughts);
+  endSession("Onderbroken / Open");
+};
+cancelBtn.onclick = () => {
+  if (confirm("Zonder opslaan stoppen?")) {
+    clearInterval(timerInterval);
+    releaseWakeLock();
+    dashboardView.style.display = "none";
+    floatingParkBtn.style.display = "none";
+    startView.style.display = "block";
+  }
+};
+
+// --- Parkeerknop Flow ---
+floatingParkBtn.onclick = () => { parkModal.style.display = "flex"; parkInput.focus(); };
+closeParkBtn.onclick = () => { parkModal.style.display = "none"; parkInput.value = ""; };
+saveParkBtn.onclick = () => {
+  const val = parkInput.value.trim();
+  if (val) {
+    const list = getStorage(STORAGE_THOUGHTS);
+    list.unshift({ id: Date.now(), text: val, status: "Open" });
+    setStorage(STORAGE_THOUGHTS, list);
+    parkInput.value = "";
+    parkModal.style.display = "none";
+    renderThoughts();
+  }
+};
+
+// --- Render & Export ---
+function renderThoughts() {
+  const list = getStorage(STORAGE_THOUGHTS);
+  thoughtList.innerHTML = "";
+  if (list.length === 0) {
+    thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.75rem;">Geen geparkeerde gedachten.</p>`;
+    return;
+  }
+  list.slice(0, 5).forEach(item => {
+    const el = document.createElement("div");
+    el.className = "list-item";
+    el.innerHTML = `
+      <div>
+        <div class="list-item-title">${item.text}</div>
+        <div class="list-item-sub">${item.status}</div>
+      </div>
+      <button class="btn btn-secondary" style="width:auto;padding:0.35rem 0.6rem;font-size:0.75rem;">Pak op</button>
+    `;
+    el.querySelector("button").onclick = () => {
+      taskInput.value = item.text;
+      taskInput.scrollIntoView({ behavior: 'smooth' });
+    };
+    thoughtList.appendChild(el);
+  });
+}
+
+exportCsvBtn.onclick = () => {
+  const logs = getStorage(STORAGE_LOGS);
+  const thoughts = getStorage(STORAGE_THOUGHTS);
+  let csv = "TYPE;DATUM;TAAK / GEDACHTE;DUUR;STATUS\n";
+  logs.forEach(l => { csv += `FOCUS;${l.date};"${l.task}";${l.duration};${l.status}\n`; });
+  thoughts.forEach(t => { csv += `GEDACHTE;${new Date(t.id).toLocaleString('nl-NL')};"${t.text}";-;${t.status}\n`; });
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `anker_export_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+};
+
+renderThoughts();
+</script>
+</body>
+</html>
