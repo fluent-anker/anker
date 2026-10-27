@@ -52,10 +52,11 @@
     /* Ophak Box */
     .micro-box { background: rgba(56, 189, 248, 0.08); border: 1px dashed var(--accent); border-radius: 1rem; padding: 1rem; margin-top: 0.75rem; display: none; }
     .micro-box.active { display: block; }
-    .micro-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .micro-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; }
     .micro-title { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
     .micro-refresh { background: none; border: none; color: var(--text-muted); font-size: 1.1rem; cursor: pointer; }
-    .micro-text { font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; }
+    .micro-parent-task { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .micro-text { font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 0.5rem; }
 
     /* Bottom Nav Bar (Driedeling) */
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 68px; background: #060911; border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 150; max-width: 480px; margin: 0 auto; }
@@ -68,9 +69,10 @@
     .tab-section.active { display: flex; }
 
     /* Nu-Anker Section */
-    .focus-display { text-align: center; margin: auto 0; padding: 2.5rem 0; }
-    .focus-label { font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; font-weight: 700; }
-    .focus-task { font-size: 1.85rem; font-weight: 800; line-height: 1.25; margin-bottom: 1.5rem; color: #ffffff; }
+    .focus-display { text-align: center; margin: auto 0; padding: 1.5rem 0; }
+    .goal-pill { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(56, 189, 248, 0.12); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.4rem 0.85rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem; max-width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .focus-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; font-weight: 700; }
+    .focus-task { font-size: 1.75rem; font-weight: 800; line-height: 1.25; margin-bottom: 1.25rem; color: #ffffff; padding: 0 0.5rem; }
     .timer { font-size: 3.8rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--text); margin-bottom: 1.5rem; }
     .wake-lock-status { font-size: 0.75rem; color: var(--success); display: inline-flex; align-items: center; gap: 0.35rem; }
     .dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
@@ -79,17 +81,20 @@
     .vat-container { border: 3px solid #38bdf8; border-top: none; border-radius: 0 0 2rem 2rem; height: 160px; width: 180px; margin: 0.5rem auto 1rem; position: relative; overflow: hidden; background: rgba(15, 23, 42, 0.6); display: flex; flex-direction: column; justify-content: flex-end; }
     .vat-fluid { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); width: 100%; transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; color: #041019; font-weight: 800; font-size: 0.95rem; }
     .vat-label-top { position: absolute; top: 8px; width: 100%; text-align: center; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
-    .kgd-counter-badge { text-align: center; font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+    .kgd-counter-badge { text-align: center; font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem; }
 
     /* Floating Parkeerknop */
     .park-btn { position: fixed; bottom: 80px; right: 1.25rem; width: 60px; height: 60px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.7rem; display: none; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.5); cursor: pointer; z-index: 140; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1.25rem; z-index: 200; }
     .modal { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; width: 100%; max-width: 400px; }
 
-    /* Lists */
-    .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.75rem 0.85rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
-    .list-item-title { font-weight: 600; margin-bottom: 0.15rem; }
-    .list-item-sub { font-size: 0.75rem; color: var(--text-muted); }
+    /* Items */
+    .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.75rem 0.85rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; gap: 0.5rem; }
+    .list-item-title { font-weight: 600; margin-bottom: 0.15rem; word-break: break-word; }
+    .list-actions { display: flex; align-items: center; gap: 0.35rem; flex-shrink: 0; }
+    .btn-action-icon { background: #1e293b; border: none; color: var(--text); border-radius: 0.5rem; padding: 0.4rem 0.6rem; font-size: 0.8rem; cursor: pointer; }
+    .btn-check { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+    .btn-del { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
   </style>
 </head>
 <body>
@@ -117,6 +122,7 @@
           <span class="micro-title">Eerste Micro-Stap</span>
           <button id="refresh-micro-btn" class="micro-refresh" title="Ander stapje">🔄</button>
         </div>
+        <div class="micro-parent-task" id="micro-parent-preview"></div>
         <div id="micro-text" class="micro-text" contenteditable="true"></div>
       </div>
 
@@ -126,7 +132,7 @@
     </div>
 
     <div class="card">
-      <h2 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem;">Kies uit Geparkeerde Gedachten</h2>
+      <h2 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem;">Openstaande Geparkeerde Gedachten</h2>
       <div id="quick-thought-list"></div>
     </div>
   </section>
@@ -141,8 +147,11 @@
     </header>
 
     <div class="focus-display">
+      <div class="goal-pill" id="goal-pill-wrapper">
+        🎯 <span>Doel: </span><strong id="active-goal-label">Geen actief doel</strong>
+      </div>
       <div class="focus-label">Huidige Micro-Actie</div>
-      <div class="focus-task" id="active-task-label">Geen actieve taak</div>
+      <div class="focus-task" id="active-task-label">Taak starten...</div>
       <div class="timer" id="timer-display">00:00</div>
     </div>
 
@@ -171,16 +180,19 @@
     <!-- Vat van Zelfwaardering -->
     <div class="card" style="text-align: center;">
       <div class="kgd-counter-badge" id="kgd-counter-text">🎁 0 KGD'tjes vandaag</div>
+      <button id="reset-vat-btn" class="btn btn-secondary" style="width: auto; padding: 0.3rem 0.8rem; font-size: 0.75rem; margin: 0 auto 0.75rem;">
+        🔄 Reset teller vandaag
+      </button>
       <div class="vat-container">
         <div class="vat-label-top">B: Leegte</div>
         <div id="vat-fluid" class="vat-fluid" style="height: 15%;">A (15%)</div>
       </div>
       <p style="font-size: 0.75rem; color: var(--text-muted);">
-        Elke voltooide micro-actie vult jouw vat van zelfwaardering.
+        Elke voltooide micro-actie verhoogt je vloeistofniveau.
       </p>
     </div>
 
-    <!-- Logs & Gedachten -->
+    <!-- Lijst Gedachten & CSV -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <h2 style="font-size: 0.95rem; font-weight: 700;">Geparkeerde Gedachten</h2>
@@ -196,10 +208,10 @@
   </section>
 </div>
 
-<!-- Floating Parkeer-knop (op Tab 2) -->
+<!-- Floating Parkeerknop -->
 <button id="floating-park-btn" class="park-btn" title="Parkeer gedachte">🧠</button>
 
-<!-- Bottom Navigatiebalk (Driedeling) -->
+<!-- Bottom Navigatiebalk -->
 <nav class="bottom-nav">
   <button class="nav-item active" data-tab="tab-taak">
     <span class="icon">📝</span>
@@ -220,7 +232,7 @@
   <div class="modal">
     <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">🧠 Gedachtendump</div>
     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-      Timer loopt gewoon door. Schrijf het uit je hoofd en keer direct terug.
+      Timer loopt door. Schrijf het uit je hoofd en keer direct terug.
     </p>
     <div class="input-wrapper">
       <input type="text" id="park-input" placeholder="Wat popt er net op?">
@@ -255,7 +267,9 @@
 
 <script>
 // --- State & Storage ---
-let activeTask = "";
+let originalTask = "";
+let activeMicroAction = "";
+let currentLinkedThoughtId = null;
 let timerInterval = null;
 let secondsElapsed = 0;
 let wakeLock = null;
@@ -286,49 +300,56 @@ async function syncToGoogleSheet(payload) {
   }
 }
 
-// --- Micro-ophak Heuristiek ---
-const microRules = [
-  { match: /mail|bericht|app|bel|contact|vragen/i, steps: [
-    "Open je mail/telefoon en zoek alleen de naam van de ontvanger op.",
-    "Typ alleen de allereerste openingszin van het bericht.",
-    "Noteer het e-mailadres of nummer op een kladblaadje."
-  ]},
-  { match: /koop|haal|melk|supermarkt|winkel|boodschap/i, steps: [
-    "Schrijf direct alleen het eerste benodigde item op papier.",
-    "Zet je schoenen en sleutels alvast klaar bij de deur.",
-    "Kijk in de voorraadkast en controleer alleen dit ene item."
-  ]},
-  { match: /opruim|schoon|was|stofzuig|afwas|vaat/i, steps: [
-    "Zet exact één rondslingerend voorwerp terug op zijn vaste plek.",
-    "Zet alleen de vaatwasser of wasmand open.",
-    "Gooi 1 stuk afval in de prullenbak."
-  ]},
-  { match: /schrijf|verslag|document|rapport|typ|studeer|lees/i, steps: [
-    "Open een leeg document en typ alleen de titel bovenaan.",
-    "Lees alleen de allereerste zin of alinea.",
-    "Noteer drie losse steekwoorden over het onderwerp."
-  ]},
-  { match: /administratie|factuur|betaal|rekening|belasting/i, steps: [
-    "Log alleen in op de bank of website en doe nog niets anders.",
-    "Leg de factuur of brief open voor je op je bureau.",
-    "Open de downloadmap op je computer."
-  ]}
-];
-
-const fallbackSteps = [
-  "Open de benodigde app of spullen en kijk er 30 seconden rustig naar.",
-  "Zet een glas water op je bureau en neem 1 diepe ademhaling.",
-  "Schrijf de allereerste 60-seconden actie op een leeg blaadje."
-];
-
+// --- Dynamische KGD Ophakker ---
 function generateMicroSteps(task) {
-  for (const rule of microRules) {
-    if (rule.match.test(task)) return rule.steps;
+  const clean = task.trim();
+  const lower = clean.toLowerCase();
+
+  if (/mail|bericht|app|bel|contact|vragen/i.test(lower)) {
+    return [
+      `Open je mail of app en zoek alleen de naam op voor '${clean}'.`,
+      `Typ alleen de allereerste begroeting en openingszin van het bericht.`,
+      `Schrijf op papier kort in 3 woorden wat je wilt vragen.`
+    ];
   }
-  return fallbackSteps;
+  if (/koop|haal|melk|supermarkt|winkel|boodschap/i.test(lower)) {
+    return [
+      `Schrijf '${clean}' direct bovenaan op een leeg briefje.`,
+      `Zet je schoenen en sleutels alvast klaar bij de deur.`,
+      `Controleer in de kast of koelkast wat je precies nodig hebt.`
+    ];
+  }
+  if (/opruim|schoon|was|stofzuig|afwas|vaat/i.test(lower)) {
+    return [
+      `Pak exact 1 rondslingerend voorwerp op en zet het terug.`,
+      `Zet alleen de vaatwasser of wasmand wijd open.`,
+      `Gooi 1 stuk afval in de prullenbak.`
+    ];
+  }
+  if (/schrijf|verslag|document|rapport|typ|studeer|lees/i.test(lower)) {
+    return [
+      `Open een leeg document en typ alleen de titel '${clean}'.`,
+      `Lees alleen de allereerste alinea of pagina.`,
+      `Schrijf 3 losse steekwoorden op een vel papier.`
+    ];
+  }
+  if (/administratie|factuur|betaal|rekening|belasting|geld/i.test(lower)) {
+    return [
+      `Log alleen in op de website/bank en doe verder nog niets.`,
+      `Leg de betreffende brief of factuur voor je op tafel.`,
+      `Open de downloadmap op je computer.`
+    ];
+  }
+
+  // Slimme dynamische fallback op basis van de ingevoerde tekst
+  return [
+    `Leg alleen de benodigdheden voor '${clean}' klaar op je bureau.`,
+    `Open het scherm of programma voor '${clean}' en kijk er 30 seconden naar.`,
+    `Doe alleen de allereerste handeling van 60 seconden voor '${clean}'.`
+  ];
 }
 
-// --- DOM Elements ---
+// --- DOM References ---
 const navItems = document.querySelectorAll(".nav-item");
 const tabSections = document.querySelectorAll(".tab-section");
 const floatingParkBtn = document.getElementById("floating-park-btn");
@@ -336,9 +357,11 @@ const taskInput = document.getElementById("task-input");
 const breakdownBtn = document.getElementById("breakdown-btn");
 const microBox = document.getElementById("micro-box");
 const microText = document.getElementById("micro-text");
+const microParentPreview = document.getElementById("micro-parent-preview");
 const refreshMicroBtn = document.getElementById("refresh-micro-btn");
 const startFocusBtn = document.getElementById("start-focus-btn");
 const timerDisplay = document.getElementById("timer-display");
+const activeGoalLabel = document.getElementById("active-goal-label");
 const activeTaskLabel = document.getElementById("active-task-label");
 const doneBtn = document.getElementById("done-btn");
 const pauseBtn = document.getElementById("pause-btn");
@@ -359,8 +382,9 @@ const closeSettingsBtn = document.getElementById("close-settings-btn");
 const testSyncBtn = document.getElementById("test-sync-btn");
 const vatFluid = document.getElementById("vat-fluid");
 const kgdCounterText = document.getElementById("kgd-counter-text");
+const resetVatBtn = document.getElementById("reset-vat-btn");
 
-// --- Tab Switching Navigation ---
+// --- Tab Navigatie ---
 function switchTab(tabId) {
   tabSections.forEach(sec => sec.classList.remove("active"));
   navItems.forEach(btn => btn.classList.remove("active"));
@@ -372,7 +396,6 @@ function switchTab(tabId) {
 
   floatingParkBtn.style.display = (tabId === "tab-anker" && timerInterval) ? "flex" : "none";
 }
-
 navItems.forEach(btn => {
   btn.onclick = () => switchTab(btn.dataset.tab);
 });
@@ -387,7 +410,7 @@ function releaseWakeLock() {
   if (wakeLock) { wakeLock.release().then(() => wakeLock = null); }
 }
 
-// --- Speech Recognition ---
+// --- Spraakherkenning ---
 function setupSpeech(btn, inputElem) {
   const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!Speech) { btn.style.display = 'none'; return; }
@@ -410,8 +433,10 @@ setupSpeech(document.getElementById("mic-park"), parkInput);
 breakdownBtn.onclick = () => {
   const val = taskInput.value.trim();
   if (!val) return;
+  originalTask = val;
   currentSuggestions = generateMicroSteps(val);
   suggestionIndex = 0;
+  microParentPreview.innerText = `Voor hoofddoel: "${originalTask}"`;
   microText.innerText = currentSuggestions[0];
   microBox.classList.add("active");
 };
@@ -430,12 +455,16 @@ function formatTime(sec) {
 
 // --- Start Focus Flow ---
 startFocusBtn.onclick = async () => {
-  let chosen = microBox.classList.contains("active") ? microText.innerText.trim() : taskInput.value.trim();
-  if (!chosen) chosen = taskInput.value.trim();
+  const inputVal = taskInput.value.trim();
+  if (!originalTask && inputVal) originalTask = inputVal;
+
+  let chosen = microBox.classList.contains("active") ? microText.innerText.trim() : inputVal;
+  if (!chosen) chosen = inputVal;
   if (!chosen) return;
 
-  activeTask = chosen;
-  activeTaskLabel.innerText = activeTask;
+  activeMicroAction = chosen;
+  activeGoalLabel.innerText = originalTask || chosen;
+  activeTaskLabel.innerText = activeMicroAction;
   secondsElapsed = 0;
   timerDisplay.innerText = "00:00";
 
@@ -459,7 +488,14 @@ function updateVatDisplay() {
   vatFluid.innerText = `A (${percentage}%)`;
 }
 
-// --- End Focus Session ---
+resetVatBtn.onclick = () => {
+  if (confirm("KGD-dagteller resetten naar 0?")) {
+    localStorage.setItem(STORAGE_KGD_COUNT, "0");
+    updateVatDisplay();
+  }
+};
+
+// --- Einde Sessie ---
 function endSession(status, isKgdSuccess = false) {
   clearInterval(timerInterval);
   timerInterval = null;
@@ -467,26 +503,39 @@ function endSession(status, isKgdSuccess = false) {
 
   const nowStr = new Date().toLocaleString('nl-NL');
   const durStr = formatTime(secondsElapsed);
+  const fullLogTitle = (originalTask && originalTask !== activeMicroAction) 
+    ? `${originalTask} → ${activeMicroAction}` 
+    : activeMicroAction;
 
+  // Lokaal loggen
   const logs = getStorage(STORAGE_LOGS);
-  logs.unshift({ date: nowStr, task: activeTask, duration: durStr, seconds: secondsElapsed, status: status });
+  logs.unshift({ date: nowStr, task: fullLogTitle, duration: durStr, seconds: secondsElapsed, status: status });
   setStorage(STORAGE_LOGS, logs);
 
+  // KGD teller verhogen
   if (isKgdSuccess) {
     let count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0") + 1;
     localStorage.setItem(STORAGE_KGD_COUNT, count);
+
+    // Als deze taak gekoppeld was aan een geparkeerde gedachte: ruim hem op!
+    if (currentLinkedThoughtId) {
+      completeThought(currentLinkedThoughtId, false);
+      currentLinkedThoughtId = null;
+    }
   }
 
+  // Naar Google Sheet
   syncToGoogleSheet({
     type: "focus",
     date: nowStr,
-    task: activeTask,
+    task: fullLogTitle,
     duration: durStr,
     seconds: secondsElapsed,
     status: status
   });
 
   taskInput.value = "";
+  originalTask = "";
   microBox.classList.remove("active");
   updateVatDisplay();
   renderThoughts();
@@ -496,7 +545,8 @@ function endSession(status, isKgdSuccess = false) {
 doneBtn.onclick = () => endSession("Afgerond (KGD)", true);
 pauseBtn.onclick = () => {
   const thoughts = getStorage(STORAGE_THOUGHTS);
-  thoughts.unshift({ id: Date.now(), text: activeTask + " (Nog afmaken)", status: "Open" });
+  const logName = (originalTask && originalTask !== activeMicroAction) ? `${originalTask} (${activeMicroAction})` : activeMicroAction;
+  thoughts.unshift({ id: Date.now(), text: logName + " [Nog afmaken]", status: "Open" });
   setStorage(STORAGE_THOUGHTS, thoughts);
   endSession("Onderbroken / Open", false);
 };
@@ -508,6 +558,31 @@ cancelBtn.onclick = () => {
     switchTab("tab-taak");
   }
 };
+
+// --- Gedachten Beheer (Afvinken & Verwijderen) ---
+function completeThought(id, shouldSync = true) {
+  let list = getStorage(STORAGE_THOUGHTS);
+  const item = list.find(t => t.id === id);
+  list = list.filter(t => t.id !== id);
+  setStorage(STORAGE_THOUGHTS, list);
+  renderThoughts();
+
+  if (shouldSync && item) {
+    syncToGoogleSheet({
+      type: "thought",
+      date: new Date().toLocaleString('nl-NL'),
+      text: item.text + " (Afgerond)",
+      status: "Afgedaan"
+    });
+  }
+}
+
+function deleteThought(id) {
+  let list = getStorage(STORAGE_THOUGHTS);
+  list = list.filter(t => t.id !== id);
+  setStorage(STORAGE_THOUGHTS, list);
+  renderThoughts();
+}
 
 // --- Parkeerknop Flow ---
 floatingParkBtn.onclick = () => { parkModal.style.display = "flex"; parkInput.focus(); };
@@ -533,7 +608,7 @@ saveParkBtn.onclick = () => {
   }
 };
 
-// --- Settings & Test Sync ---
+// --- Instellingen & Test Sync ---
 settingsBtn.onclick = () => {
   sheetUrlInput.value = localStorage.getItem(STORAGE_SHEET_URL) || "";
   settingsModal.style.display = "flex";
@@ -577,41 +652,61 @@ function updateSyncStatus() {
 
 // --- Render Thoughts ---
 function renderThoughts() {
-  const list = getStorage(STORAGE_THOUGHTS);
+  const list = getStorage(STORAGE_THOUGHTS).filter(t => t.status === "Open");
   thoughtList.innerHTML = "";
   quickThoughtList.innerHTML = "";
 
   if (list.length === 0) {
-    thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen geparkeerde gedachten.</p>`;
+    thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen openstaande gedachten! 🎉</p>`;
     quickThoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen openstaande taken.</p>`;
     return;
   }
 
-  list.slice(0, 5).forEach(item => {
+  list.forEach(item => {
+    // In Tab 3
     const el = document.createElement("div");
     el.className = "list-item";
     el.innerHTML = `
-      <div>
+      <div style="flex:1;">
         <div class="list-item-title">${item.text}</div>
-        <div class="list-item-sub">${item.status}</div>
       </div>
-      <button class="btn btn-secondary" style="width:auto;padding:0.35rem 0.6rem;font-size:0.75rem;">Pak op</button>
+      <div class="list-actions">
+        <button class="btn-action-icon btn-check" title="Klaar / Afvinken">✓</button>
+        <button class="btn-action-icon" title="Oppakken als taak">Pak op</button>
+        <button class="btn-action-icon btn-del" title="Verwijderen">✕</button>
+      </div>
     `;
-    el.querySelector("button").onclick = () => {
+    el.querySelector(".btn-check").onclick = () => completeThought(item.id, true);
+    el.querySelector(".btn-del").onclick = () => deleteThought(item.id);
+    el.querySelectorAll(".btn-action-icon")[1].onclick = () => {
       taskInput.value = item.text;
+      originalTask = item.text;
+      currentLinkedThoughtId = item.id;
       switchTab("tab-taak");
       taskInput.scrollIntoView({ behavior: 'smooth' });
     };
     thoughtList.appendChild(el);
-    quickThoughtList.appendChild(el.cloneNode(true));
-  });
 
-  // Re-attach listeners on cloned quick items
-  quickThoughtList.querySelectorAll("button").forEach((btn, idx) => {
-    btn.onclick = () => {
-      taskInput.value = list[idx].text;
+    // In Tab 1 (Quick list)
+    const quickEl = document.createElement("div");
+    quickEl.className = "list-item";
+    quickEl.innerHTML = `
+      <div style="flex:1;">
+        <div class="list-item-title">${item.text}</div>
+      </div>
+      <div class="list-actions">
+        <button class="btn-action-icon btn-check" title="Klaar / Afvinken">✓</button>
+        <button class="btn-action-icon" style="color:var(--accent);">Pak op</button>
+      </div>
+    `;
+    quickEl.querySelector(".btn-check").onclick = () => completeThought(item.id, true);
+    quickEl.querySelectorAll(".btn-action-icon")[1].onclick = () => {
+      taskInput.value = item.text;
+      originalTask = item.text;
+      currentLinkedThoughtId = item.id;
       taskInput.scrollIntoView({ behavior: 'smooth' });
     };
+    quickThoughtList.appendChild(quickEl);
   });
 }
 
