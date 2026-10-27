@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#090d16">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
   <title>Anker Focus</title>
   <style>
     :root {
@@ -14,27 +17,22 @@
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --accent: #38bdf8;
-      --accent-rgb: 56, 189, 248;
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 75px; }
     .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
     
-    /* Headers */
-    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--card-border); margin-bottom: 1.5rem; }
-    h1 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+    /* Header */
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.85rem; border-bottom: 1px solid var(--card-border); margin-bottom: 1.25rem; }
+    h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
     h1 span { color: var(--accent); }
-    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
-    .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.35rem; color: var(--text-muted); border-radius: 0.5rem; }
-    .icon-btn:hover { background: var(--card); color: var(--text); }
+    .badge { font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 0.25rem 0.6rem; border-radius: 999px; font-weight: 600; }
 
-    /* Cards */
-    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; margin-bottom: 1.25rem; }
-    
-    /* Input & Actions */
+    /* Cards & Inputs */
+    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; margin-bottom: 1rem; }
     .input-wrapper { position: relative; margin-bottom: 0.75rem; }
     textarea, input[type="text"] { width: 100%; background: #060911; border: 1.5px solid var(--card-border); border-radius: 0.85rem; color: var(--text); padding: 0.85rem 3rem 0.85rem 0.85rem; font-size: 1rem; resize: none; outline: none; }
     textarea:focus, input[type="text"]:focus { border-color: var(--accent); }
@@ -43,7 +41,7 @@
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
     /* Buttons */
-    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.85rem; border-radius: 0.85rem; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.85rem; border-radius: 0.85rem; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.1s ease; }
     .btn-primary { background: var(--accent); color: #041019; }
     .btn-secondary { background: #1e293b; color: var(--text); }
     .btn-success { background: var(--success); color: #022316; }
@@ -59,39 +57,49 @@
     .micro-refresh { background: none; border: none; color: var(--text-muted); font-size: 1.1rem; cursor: pointer; }
     .micro-text { font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; }
 
-    /* Nu-Dashboard (Active Focus) */
-    #dashboard-view { display: none; flex-direction: column; justify-content: space-between; flex: 1; }
-    .focus-display { text-align: center; margin: auto 0; padding: 2rem 0; }
+    /* Bottom Nav Bar (Driedeling) */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 68px; background: #060911; border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 150; max-width: 480px; margin: 0 auto; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; height: 100%; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; gap: 0.25rem; }
+    .nav-item .icon { font-size: 1.35rem; }
+    .nav-item.active { color: var(--accent); }
+
+    /* Sections */
+    .tab-section { display: none; flex-direction: column; flex: 1; }
+    .tab-section.active { display: flex; }
+
+    /* Nu-Anker Section */
+    .focus-display { text-align: center; margin: auto 0; padding: 2.5rem 0; }
     .focus-label { font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; font-weight: 700; }
     .focus-task { font-size: 1.85rem; font-weight: 800; line-height: 1.25; margin-bottom: 1.5rem; color: #ffffff; }
-    .timer { font-size: 3.5rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--text); margin-bottom: 1.5rem; }
+    .timer { font-size: 3.8rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--text); margin-bottom: 1.5rem; }
     .wake-lock-status { font-size: 0.75rem; color: var(--success); display: inline-flex; align-items: center; gap: 0.35rem; }
     .dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
 
-    /* Floating & Modals */
-    .park-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 62px; height: 62px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.7rem; display: none; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; z-index: 100; }
+    /* Vat van Zelfwaardering Visual */
+    .vat-container { border: 3px solid #38bdf8; border-top: none; border-radius: 0 0 2rem 2rem; height: 160px; width: 180px; margin: 0.5rem auto 1rem; position: relative; overflow: hidden; background: rgba(15, 23, 42, 0.6); display: flex; flex-direction: column; justify-content: flex-end; }
+    .vat-fluid { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); width: 100%; transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; color: #041019; font-weight: 800; font-size: 0.95rem; }
+    .vat-label-top { position: absolute; top: 8px; width: 100%; text-align: center; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+    .kgd-counter-badge { text-align: center; font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+
+    /* Floating Parkeerknop */
+    .park-btn { position: fixed; bottom: 80px; right: 1.25rem; width: 60px; height: 60px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.7rem; display: none; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.5); cursor: pointer; z-index: 140; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1.25rem; z-index: 200; }
     .modal { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; width: 100%; max-width: 400px; }
-    .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
 
     /* Lists */
-    .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.85rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
-    .list-item-title { font-weight: 600; margin-bottom: 0.2rem; }
+    .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.75rem 0.85rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+    .list-item-title { font-weight: 600; margin-bottom: 0.15rem; }
     .list-item-sub { font-size: 0.75rem; color: var(--text-muted); }
-    .sync-status { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.35rem; margin-top: 0.5rem; }
-    .sync-status.online { color: var(--success); }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- START VIEW -->
-  <div id="start-view">
+  <!-- TAB 1: TAAK -->
+  <section id="tab-taak" class="tab-section active">
     <header>
       <h1>Anker<span>.</span></h1>
-      <div class="header-actions">
-        <button id="settings-btn" class="icon-btn" title="Instellingen">⚙️</button>
-      </div>
+      <span class="badge">1. Bepalen & Ophakken</span>
     </header>
 
     <div class="card">
@@ -113,34 +121,28 @@
       </div>
 
       <button id="start-focus-btn" class="btn btn-primary" style="margin-top: 1rem;">
-        ▶ Start Nu
+        ▶ Start Nu-Anker
       </button>
     </div>
 
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-        <h2 style="font-size: 1rem; font-weight: 700;">Geparkeerde Gedachten</h2>
-        <button id="export-csv-btn" class="btn btn-secondary" style="width: auto; padding: 0.35rem 0.65rem; font-size: 0.75rem;">
-          📥 Exporteer CSV
-        </button>
-      </div>
-      <div id="thought-list"></div>
-      <div id="sync-info" class="sync-status">☁️ Alleen lokaal opgeslagen</div>
+      <h2 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem;">Kies uit Geparkeerde Gedachten</h2>
+      <div id="quick-thought-list"></div>
     </div>
-  </div>
+  </section>
 
-  <!-- DASHBOARD VIEW -->
-  <div id="dashboard-view">
+  <!-- TAB 2: NU-ANKER -->
+  <section id="tab-anker" class="tab-section">
     <header>
       <div class="wake-lock-status">
         <span style="font-size: 0.6rem;">🟢</span> Scherm blijft actief
       </div>
-      <span class="icon-btn" style="font-size: 0.85rem; color: var(--accent); font-weight: 700;">FOCUS</span>
+      <span class="badge">2. Nu-Anker</span>
     </header>
 
     <div class="focus-display">
       <div class="focus-label">Huidige Micro-Actie</div>
-      <div class="focus-task" id="active-task-label">Taak ophalen...</div>
+      <div class="focus-task" id="active-task-label">Geen actieve taak</div>
       <div class="timer" id="timer-display">00:00</div>
     </div>
 
@@ -157,16 +159,66 @@
         Afbreken zonder opslaan
       </button>
     </div>
-  </div>
+  </section>
+
+  <!-- TAB 3: LOG & VAT -->
+  <section id="tab-vat" class="tab-section">
+    <header>
+      <h1>Log & Vat<span>.</span></h1>
+      <button id="settings-btn" style="background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer;">⚙️</button>
+    </header>
+
+    <!-- Vat van Zelfwaardering -->
+    <div class="card" style="text-align: center;">
+      <div class="kgd-counter-badge" id="kgd-counter-text">🎁 0 KGD'tjes vandaag</div>
+      <div class="vat-container">
+        <div class="vat-label-top">B: Leegte</div>
+        <div id="vat-fluid" class="vat-fluid" style="height: 15%;">A (15%)</div>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-muted);">
+        Elke voltooide micro-actie vult jouw vat van zelfwaardering.
+      </p>
+    </div>
+
+    <!-- Logs & Gedachten -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <h2 style="font-size: 0.95rem; font-weight: 700;">Geparkeerde Gedachten</h2>
+        <button id="export-csv-btn" class="btn btn-secondary" style="width: auto; padding: 0.35rem 0.65rem; font-size: 0.75rem;">
+          📥 CSV
+        </button>
+      </div>
+      <div id="thought-list"></div>
+      <div id="sync-info" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+        ☁️ Tik op ⚙️ om Google Sheet te koppelen
+      </div>
+    </div>
+  </section>
 </div>
 
-<!-- Floating Parkeer-knop -->
+<!-- Floating Parkeer-knop (op Tab 2) -->
 <button id="floating-park-btn" class="park-btn" title="Parkeer gedachte">🧠</button>
+
+<!-- Bottom Navigatiebalk (Driedeling) -->
+<nav class="bottom-nav">
+  <button class="nav-item active" data-tab="tab-taak">
+    <span class="icon">📝</span>
+    <span>Taak</span>
+  </button>
+  <button class="nav-item" data-tab="tab-anker">
+    <span class="icon">⚓</span>
+    <span>Nu-Anker</span>
+  </button>
+  <button class="nav-item" data-tab="tab-vat">
+    <span class="icon">🏺</span>
+    <span>Log & Vat</span>
+  </button>
+</nav>
 
 <!-- Parkeer Modal -->
 <div id="park-modal" class="modal-overlay">
   <div class="modal">
-    <div class="modal-title">🧠 Gedachtendump</div>
+    <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">🧠 Gedachtendump</div>
     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
       Timer loopt gewoon door. Schrijf het uit je hoofd en keer direct terug.
     </p>
@@ -184,14 +236,17 @@
 <!-- Instellingen Modal -->
 <div id="settings-modal" class="modal-overlay">
   <div class="modal">
-    <div class="modal-title">⚙️ Instellingen</div>
+    <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">⚙️ Instellingen</div>
     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-      Plak hier jouw Google Web-app-URL om direct te synchroniseren met je Google Sheet:
+      Google Web-app-URL (uit Apps Script):
     </p>
     <div class="input-wrapper">
       <input type="text" id="sheet-url-input" placeholder="https://script.google.com/macros/s/.../exec">
     </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.75rem;">
+    <button id="test-sync-btn" class="btn btn-secondary" style="margin-bottom: 0.75rem; font-size: 0.85rem;">
+      🔍 Test Verbinding
+    </button>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
       <button id="save-settings-btn" class="btn btn-primary">Opslaan</button>
       <button id="close-settings-btn" class="btn btn-secondary">Sluiten</button>
     </div>
@@ -210,6 +265,7 @@ let suggestionIndex = 0;
 const STORAGE_LOGS = "anker_focus_log";
 const STORAGE_THOUGHTS = "anker_thoughts";
 const STORAGE_SHEET_URL = "anker_sheet_url";
+const STORAGE_KGD_COUNT = "anker_kgd_count_" + new Date().toISOString().slice(0, 10);
 
 function getStorage(key) { return JSON.parse(localStorage.getItem(key) || "[]"); }
 function setStorage(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
@@ -272,9 +328,10 @@ function generateMicroSteps(task) {
   return fallbackSteps;
 }
 
-// --- DOM References ---
-const startView = document.getElementById("start-view");
-const dashboardView = document.getElementById("dashboard-view");
+// --- DOM Elements ---
+const navItems = document.querySelectorAll(".nav-item");
+const tabSections = document.querySelectorAll(".tab-section");
+const floatingParkBtn = document.getElementById("floating-park-btn");
 const taskInput = document.getElementById("task-input");
 const breakdownBtn = document.getElementById("breakdown-btn");
 const microBox = document.getElementById("micro-box");
@@ -286,12 +343,12 @@ const activeTaskLabel = document.getElementById("active-task-label");
 const doneBtn = document.getElementById("done-btn");
 const pauseBtn = document.getElementById("pause-btn");
 const cancelBtn = document.getElementById("cancel-btn");
-const floatingParkBtn = document.getElementById("floating-park-btn");
 const parkModal = document.getElementById("park-modal");
 const parkInput = document.getElementById("park-input");
 const saveParkBtn = document.getElementById("save-park-btn");
 const closeParkBtn = document.getElementById("close-park-btn");
 const thoughtList = document.getElementById("thought-list");
+const quickThoughtList = document.getElementById("quick-thought-list");
 const exportCsvBtn = document.getElementById("export-csv-btn");
 const syncInfo = document.getElementById("sync-info");
 const settingsBtn = document.getElementById("settings-btn");
@@ -299,6 +356,26 @@ const settingsModal = document.getElementById("settings-modal");
 const sheetUrlInput = document.getElementById("sheet-url-input");
 const saveSettingsBtn = document.getElementById("save-settings-btn");
 const closeSettingsBtn = document.getElementById("close-settings-btn");
+const testSyncBtn = document.getElementById("test-sync-btn");
+const vatFluid = document.getElementById("vat-fluid");
+const kgdCounterText = document.getElementById("kgd-counter-text");
+
+// --- Tab Switching Navigation ---
+function switchTab(tabId) {
+  tabSections.forEach(sec => sec.classList.remove("active"));
+  navItems.forEach(btn => btn.classList.remove("active"));
+
+  const targetSec = document.getElementById(tabId);
+  const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
+  if (targetSec) targetSec.classList.add("active");
+  if (targetBtn) targetBtn.classList.add("active");
+
+  floatingParkBtn.style.display = (tabId === "tab-anker" && timerInterval) ? "flex" : "none";
+}
+
+navItems.forEach(btn => {
+  btn.onclick = () => switchTab(btn.dataset.tab);
+});
 
 // --- Wake Lock ---
 async function requestWakeLock() {
@@ -329,7 +406,7 @@ function setupSpeech(btn, inputElem) {
 setupSpeech(document.getElementById("mic-main"), taskInput);
 setupSpeech(document.getElementById("mic-park"), parkInput);
 
-// --- Ophakken Handlers ---
+// --- Ophakken Flow ---
 breakdownBtn.onclick = () => {
   const val = taskInput.value.trim();
   if (!val) return;
@@ -351,7 +428,7 @@ function formatTime(sec) {
   return `${m}:${s}`;
 }
 
-// --- Start Session ---
+// --- Start Focus Flow ---
 startFocusBtn.onclick = async () => {
   let chosen = microBox.classList.contains("active") ? microText.innerText.trim() : taskInput.value.trim();
   if (!chosen) chosen = taskInput.value.trim();
@@ -362,31 +439,44 @@ startFocusBtn.onclick = async () => {
   secondsElapsed = 0;
   timerDisplay.innerText = "00:00";
 
-  startView.style.display = "none";
-  dashboardView.style.display = "flex";
+  switchTab("tab-anker");
   floatingParkBtn.style.display = "flex";
 
   await requestWakeLock();
+  clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     secondsElapsed++;
     timerDisplay.innerText = formatTime(secondsElapsed);
   }, 1000);
 };
 
-// --- End Session ---
-function endSession(status) {
+// --- Vat van Zelfwaardering Update ---
+function updateVatDisplay() {
+  const count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0");
+  kgdCounterText.innerText = `🎁 ${count} KGD'tjes vandaag`;
+  const percentage = Math.min(15 + (count * 15), 100);
+  vatFluid.style.height = `${percentage}%`;
+  vatFluid.innerText = `A (${percentage}%)`;
+}
+
+// --- End Focus Session ---
+function endSession(status, isKgdSuccess = false) {
   clearInterval(timerInterval);
+  timerInterval = null;
   releaseWakeLock();
 
   const nowStr = new Date().toLocaleString('nl-NL');
   const durStr = formatTime(secondsElapsed);
 
-  // Lokaal opslaan
   const logs = getStorage(STORAGE_LOGS);
   logs.unshift({ date: nowStr, task: activeTask, duration: durStr, seconds: secondsElapsed, status: status });
   setStorage(STORAGE_LOGS, logs);
 
-  // Sync naar Google Sheet
+  if (isKgdSuccess) {
+    let count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0") + 1;
+    localStorage.setItem(STORAGE_KGD_COUNT, count);
+  }
+
   syncToGoogleSheet({
     type: "focus",
     date: nowStr,
@@ -396,28 +486,26 @@ function endSession(status) {
     status: status
   });
 
-  dashboardView.style.display = "none";
-  floatingParkBtn.style.display = "none";
-  startView.style.display = "block";
-  microBox.classList.remove("active");
   taskInput.value = "";
+  microBox.classList.remove("active");
+  updateVatDisplay();
   renderThoughts();
+  switchTab("tab-vat");
 }
 
-doneBtn.onclick = () => endSession("Afgerond (KGD)");
+doneBtn.onclick = () => endSession("Afgerond (KGD)", true);
 pauseBtn.onclick = () => {
   const thoughts = getStorage(STORAGE_THOUGHTS);
   thoughts.unshift({ id: Date.now(), text: activeTask + " (Nog afmaken)", status: "Open" });
   setStorage(STORAGE_THOUGHTS, thoughts);
-  endSession("Onderbroken / Open");
+  endSession("Onderbroken / Open", false);
 };
 cancelBtn.onclick = () => {
   if (confirm("Zonder opslaan stoppen?")) {
     clearInterval(timerInterval);
+    timerInterval = null;
     releaseWakeLock();
-    dashboardView.style.display = "none";
-    floatingParkBtn.style.display = "none";
-    startView.style.display = "block";
+    switchTab("tab-taak");
   }
 };
 
@@ -432,7 +520,6 @@ saveParkBtn.onclick = () => {
     list.unshift({ id: Date.now(), text: val, status: "Open" });
     setStorage(STORAGE_THOUGHTS, list);
 
-    // Sync naar Google Sheet
     syncToGoogleSheet({
       type: "thought",
       date: nowStr,
@@ -446,7 +533,7 @@ saveParkBtn.onclick = () => {
   }
 };
 
-// --- Instellingen Flow ---
+// --- Settings & Test Sync ---
 settingsBtn.onclick = () => {
   sheetUrlInput.value = localStorage.getItem(STORAGE_SHEET_URL) || "";
   settingsModal.style.display = "flex";
@@ -458,25 +545,48 @@ saveSettingsBtn.onclick = () => {
   updateSyncStatus();
 };
 
+testSyncBtn.onclick = async () => {
+  const url = sheetUrlInput.value.trim();
+  if (!url) { alert("Vul eerst een URL in!"); return; }
+  testSyncBtn.innerText = "⏳ Testen...";
+  try {
+    await fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({ type: "thought", date: new Date().toLocaleString('nl-NL'), text: "Verbindingstest geslaagd! 🎉", status: "Getest" })
+    });
+    alert("Test verzonden! Controleer je tabblad 'Gedachtendump' in je Google Sheet.");
+  } catch (err) {
+    alert("Fout bij verbinden: " + err.message);
+  } finally {
+    testSyncBtn.innerText = "🔍 Test Verbinding";
+  }
+};
+
 function updateSyncStatus() {
   const url = localStorage.getItem(STORAGE_SHEET_URL);
   if (url) {
-    syncInfo.className = "sync-status online";
+    syncInfo.style.color = "var(--success)";
     syncInfo.innerText = "☁️ Gekoppeld aan Google Sheet";
   } else {
-    syncInfo.className = "sync-status";
+    syncInfo.style.color = "var(--text-muted)";
     syncInfo.innerText = "☁️ Alleen lokaal opgeslagen (tik op ⚙️ om te koppelen)";
   }
 }
 
-// --- Render & Export ---
+// --- Render Thoughts ---
 function renderThoughts() {
   const list = getStorage(STORAGE_THOUGHTS);
   thoughtList.innerHTML = "";
+  quickThoughtList.innerHTML = "";
+
   if (list.length === 0) {
-    thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.75rem;">Geen geparkeerde gedachten.</p>`;
+    thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen geparkeerde gedachten.</p>`;
+    quickThoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen openstaande taken.</p>`;
     return;
   }
+
   list.slice(0, 5).forEach(item => {
     const el = document.createElement("div");
     el.className = "list-item";
@@ -489,9 +599,19 @@ function renderThoughts() {
     `;
     el.querySelector("button").onclick = () => {
       taskInput.value = item.text;
+      switchTab("tab-taak");
       taskInput.scrollIntoView({ behavior: 'smooth' });
     };
     thoughtList.appendChild(el);
+    quickThoughtList.appendChild(el.cloneNode(true));
+  });
+
+  // Re-attach listeners on cloned quick items
+  quickThoughtList.querySelectorAll("button").forEach((btn, idx) => {
+    btn.onclick = () => {
+      taskInput.value = list[idx].text;
+      taskInput.scrollIntoView({ behavior: 'smooth' });
+    };
   });
 }
 
@@ -510,6 +630,7 @@ exportCsvBtn.onclick = () => {
   a.click();
 };
 
+updateVatDisplay();
 renderThoughts();
 updateSyncStatus();
 </script>
