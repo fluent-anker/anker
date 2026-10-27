@@ -22,7 +22,7 @@
       --danger: #ef4444;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 75px; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 80px; }
     .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
     
     /* Header */
@@ -41,7 +41,7 @@
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
     /* Buttons */
-    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.85rem; border-radius: 0.85rem; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.1s ease; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.85rem; border-radius: 0.85rem; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: transform 0.1s ease; }
     .btn-primary { background: var(--accent); color: #041019; }
     .btn-secondary { background: #1e293b; color: var(--text); }
     .btn-success { background: var(--success); color: #022316; }
@@ -56,9 +56,9 @@
     .micro-title { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
     .micro-refresh { background: none; border: none; color: var(--text-muted); font-size: 1.1rem; cursor: pointer; }
     .micro-parent-task { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
-    .micro-text { font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 0.5rem; }
+    .micro-text { font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; background: rgba(0,0,0,0.25); padding: 0.5rem; border-radius: 0.5rem; }
 
-    /* Bottom Nav Bar (Driedeling) */
+    /* Bottom Nav Bar */
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 68px; background: #060911; border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 150; max-width: 480px; margin: 0 auto; }
     .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; height: 100%; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; gap: 0.25rem; }
     .nav-item .icon { font-size: 1.35rem; }
@@ -73,7 +73,7 @@
     .goal-pill { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(56, 189, 248, 0.12); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.4rem 0.85rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem; max-width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .focus-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; font-weight: 700; }
     .focus-task { font-size: 1.75rem; font-weight: 800; line-height: 1.25; margin-bottom: 1.25rem; color: #ffffff; padding: 0 0.5rem; }
-    .timer { font-size: 3.8rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--text); margin-bottom: 1.5rem; }
+    .timer { font-size: 3.8rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--text); margin-bottom: 1rem; }
     .wake-lock-status { font-size: 0.75rem; color: var(--success); display: inline-flex; align-items: center; gap: 0.35rem; }
     .dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
 
@@ -83,39 +83,63 @@
     .vat-label-top { position: absolute; top: 8px; width: 100%; text-align: center; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
     .kgd-counter-badge { text-align: center; font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem; }
 
-    /* Floating Parkeerknop */
-    .park-btn { position: fixed; bottom: 80px; right: 1.25rem; width: 60px; height: 60px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.7rem; display: none; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.5); cursor: pointer; z-index: 140; }
+    /* Dedicated Floating Parkeerknop - ALTIJD ZICHTBAAR */
+    .park-btn { position: fixed; bottom: 82px; right: 1.25rem; width: 62px; height: 62px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.75rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.6); cursor: pointer; z-index: 140; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1.25rem; z-index: 200; }
     .modal { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; width: 100%; max-width: 400px; }
 
-    /* Items */
+    /* Item Cards & Lists */
     .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.75rem 0.85rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; gap: 0.5rem; }
     .list-item-title { font-weight: 600; margin-bottom: 0.15rem; word-break: break-word; }
+    .list-item-sub { font-size: 0.75rem; color: var(--text-muted); }
     .list-actions { display: flex; align-items: center; gap: 0.35rem; flex-shrink: 0; }
     .btn-action-icon { background: #1e293b; border: none; color: var(--text); border-radius: 0.5rem; padding: 0.4rem 0.6rem; font-size: 0.8rem; cursor: pointer; }
     .btn-check { background: rgba(16, 185, 129, 0.2); color: var(--success); }
     .btn-del { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+    .btn-start { background: rgba(56, 189, 248, 0.2); color: var(--accent); font-weight: 700; }
+
+    /* To-Day Box styling */
+    .today-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .today-badge { font-size: 0.75rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: var(--warning); }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- TAB 1: TAAK -->
+  <!-- TAB 1: TAAK & TO-DAY -->
   <section id="tab-taak" class="tab-section active">
     <header>
       <h1>Anker<span>.</span></h1>
-      <span class="badge">1. Bepalen & Ophakken</span>
+      <span class="badge">1. Bepalen & To-Day</span>
     </header>
 
+    <!-- To-Day Lijst (Strikt Max 3) -->
+    <div class="card" style="border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.03);">
+      <div class="today-header">
+        <h2 style="font-size: 1rem; font-weight: 800; color: #fcd34d;">🎯 To-Day Lijst (Max 3)</h2>
+        <span class="today-badge" id="today-count-badge">0 / 3</span>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+        Kies maximaal 3 prioriteiten voor vandaag. Niet meer, niet minder.
+      </p>
+      <div id="today-list"></div>
+    </div>
+
+    <!-- Invoer & Ophakken -->
     <div class="card">
       <div class="input-wrapper">
-        <textarea id="task-input" rows="2" placeholder="Wat wil je doen? (typ of spreek in)"></textarea>
+        <textarea id="task-input" rows="2" placeholder="Nieuwe taak (typ of spreek in)"></textarea>
         <button id="mic-main" class="mic-btn" title="Inspreken">🎙️</button>
       </div>
 
-      <button id="breakdown-btn" class="btn btn-secondary" style="margin-bottom: 0.75rem;">
-        ✂️ Knip op naar KGD (< 2 min)
-      </button>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem;">
+        <button id="breakdown-btn" class="btn btn-secondary">
+          ✂️ Knip op
+        </button>
+        <button id="add-to-today-btn" class="btn btn-secondary" style="border-color: rgba(245, 158, 11, 0.3);">
+          📌 Naar To-Day
+        </button>
+      </div>
 
       <div id="micro-box" class="micro-box">
         <div class="micro-header">
@@ -126,18 +150,19 @@
         <div id="micro-text" class="micro-text" contenteditable="true"></div>
       </div>
 
-      <button id="start-focus-btn" class="btn btn-primary" style="margin-top: 1rem;">
-        ▶ Start Nu-Anker
+      <button id="start-focus-btn" class="btn btn-primary" style="margin-top: 0.75rem;">
+        ▶ Start Nu-Anker Direct
       </button>
     </div>
 
+    <!-- Gedachten Opvangbak -->
     <div class="card">
-      <h2 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem;">Openstaande Geparkeerde Gedachten</h2>
+      <h2 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem;">Geparkeerde Gedachten</h2>
       <div id="quick-thought-list"></div>
     </div>
   </section>
 
-  <!-- TAB 2: NU-ANKER -->
+  <!-- TAB 2: NU-ANKER (FOCUS DASHBOARD) -->
   <section id="tab-anker" class="tab-section">
     <header>
       <div class="wake-lock-status">
@@ -152,7 +177,13 @@
       </div>
       <div class="focus-label">Huidige Micro-Actie</div>
       <div class="focus-task" id="active-task-label">Taak starten...</div>
+      
       <div class="timer" id="timer-display">00:00</div>
+      
+      <!-- Start / Pauze van Timer Zelf -->
+      <button id="timer-toggle-btn" class="btn btn-secondary" style="width: auto; padding: 0.45rem 1.2rem; font-size: 0.85rem; margin: 0 auto 1.5rem;">
+        ⏸ Pauzeer Timer
+      </button>
     </div>
 
     <div>
@@ -161,7 +192,7 @@
           🟢 Klaar! (+1 KGD)
         </button>
         <button id="pause-btn" class="btn btn-warning">
-          🟡 Niet af / Pauze
+          🟡 Niet af / Opslaan
         </button>
       </div>
       <button id="cancel-btn" class="btn btn-secondary" style="background: transparent; color: var(--text-muted); font-size: 0.85rem;">
@@ -181,18 +212,29 @@
     <div class="card" style="text-align: center;">
       <div class="kgd-counter-badge" id="kgd-counter-text">🎁 0 KGD'tjes vandaag</div>
       <button id="reset-vat-btn" class="btn btn-secondary" style="width: auto; padding: 0.3rem 0.8rem; font-size: 0.75rem; margin: 0 auto 0.75rem;">
-        🔄 Reset teller vandaag
+        🔄 Reset dagteller
       </button>
       <div class="vat-container">
         <div class="vat-label-top">B: Leegte</div>
         <div id="vat-fluid" class="vat-fluid" style="height: 15%;">A (15%)</div>
       </div>
       <p style="font-size: 0.75rem; color: var(--text-muted);">
-        Elke voltooide micro-actie verhoogt je vloeistofniveau.
+        Elke voltooide micro-actie vult jouw vat van zelfwaardering.
       </p>
     </div>
 
-    <!-- Lijst Gedachten & CSV -->
+    <!-- Afgeronde Taken Sectie (met enkel & alles wissen) -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <h2 style="font-size: 0.95rem; font-weight: 700;">✅ Afgeronde Taken (Vandaag)</h2>
+        <button id="clear-all-logs-btn" class="btn btn-secondary" style="width: auto; padding: 0.3rem 0.6rem; font-size: 0.75rem; color: var(--danger);">
+          Wis overzicht
+        </button>
+      </div>
+      <div id="completed-logs-list"></div>
+    </div>
+
+    <!-- Geparkeerde Gedachten & CSV -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <h2 style="font-size: 0.95rem; font-weight: 700;">Geparkeerde Gedachten</h2>
@@ -208,7 +250,7 @@
   </section>
 </div>
 
-<!-- Floating Parkeerknop -->
+<!-- DEDICATED FLOATING PARKEERKNOP: ALTIJD ZICHTBAAR -->
 <button id="floating-park-btn" class="park-btn" title="Parkeer gedachte">🧠</button>
 
 <!-- Bottom Navigatiebalk -->
@@ -232,7 +274,7 @@
   <div class="modal">
     <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">🧠 Gedachtendump</div>
     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-      Timer loopt door. Schrijf het uit je hoofd en keer direct terug.
+      Timer loopt door. Dumpt het uit je hoofd en ga direct weer verder.
     </p>
     <div class="input-wrapper">
       <input type="text" id="park-input" placeholder="Wat popt er net op?">
@@ -266,11 +308,13 @@
 </div>
 
 <script>
-// --- State & Storage ---
+// --- State & Storage Keys ---
 let originalTask = "";
 let activeMicroAction = "";
 let currentLinkedThoughtId = null;
+let currentLinkedTodayId = null;
 let timerInterval = null;
+let isTimerRunning = false;
 let secondsElapsed = 0;
 let wakeLock = null;
 let currentSuggestions = [];
@@ -278,6 +322,7 @@ let suggestionIndex = 0;
 
 const STORAGE_LOGS = "anker_focus_log";
 const STORAGE_THOUGHTS = "anker_thoughts";
+const STORAGE_TODAY = "anker_today_list";
 const STORAGE_SHEET_URL = "anker_sheet_url";
 const STORAGE_KGD_COUNT = "anker_kgd_count_" + new Date().toISOString().slice(0, 10);
 
@@ -308,7 +353,7 @@ function generateMicroSteps(task) {
   if (/mail|bericht|app|bel|contact|vragen/i.test(lower)) {
     return [
       `Open je mail of app en zoek alleen de naam op voor '${clean}'.`,
-      `Typ alleen de allereerste begroeting en openingszin van het bericht.`,
+      `Typ alleen de allereerste begroeting en openingszin.`,
       `Schrijf op papier kort in 3 woorden wat je wilt vragen.`
     ];
   }
@@ -329,7 +374,7 @@ function generateMicroSteps(task) {
   if (/schrijf|verslag|document|rapport|typ|studeer|lees/i.test(lower)) {
     return [
       `Open een leeg document en typ alleen de titel '${clean}'.`,
-      `Lees alleen de allereerste alinea of pagina.`,
+      `Lees alleen de allereerste alinea of alinea-kop.`,
       `Schrijf 3 losse steekwoorden op een vel papier.`
     ];
   }
@@ -341,26 +386,29 @@ function generateMicroSteps(task) {
     ];
   }
 
-  // Slimme dynamische fallback op basis van de ingevoerde tekst
   return [
     `Leg alleen de benodigdheden voor '${clean}' klaar op je bureau.`,
-    `Open het scherm of programma voor '${clean}' en kijk er 30 seconden naar.`,
+    `Open het scherm of programma voor '${clean}' en kijk er 30 seconden rustig naar.`,
     `Doe alleen de allereerste handeling van 60 seconden voor '${clean}'.`
   ];
 }
 
-// --- DOM References ---
+// --- DOM Elements ---
 const navItems = document.querySelectorAll(".nav-item");
 const tabSections = document.querySelectorAll(".tab-section");
 const floatingParkBtn = document.getElementById("floating-park-btn");
 const taskInput = document.getElementById("task-input");
 const breakdownBtn = document.getElementById("breakdown-btn");
+const addToTodayBtn = document.getElementById("add-to-today-btn");
+const todayList = document.getElementById("today-list");
+const todayCountBadge = document.getElementById("today-count-badge");
 const microBox = document.getElementById("micro-box");
 const microText = document.getElementById("micro-text");
 const microParentPreview = document.getElementById("micro-parent-preview");
 const refreshMicroBtn = document.getElementById("refresh-micro-btn");
 const startFocusBtn = document.getElementById("start-focus-btn");
 const timerDisplay = document.getElementById("timer-display");
+const timerToggleBtn = document.getElementById("timer-toggle-btn");
 const activeGoalLabel = document.getElementById("active-goal-label");
 const activeTaskLabel = document.getElementById("active-task-label");
 const doneBtn = document.getElementById("done-btn");
@@ -372,6 +420,8 @@ const saveParkBtn = document.getElementById("save-park-btn");
 const closeParkBtn = document.getElementById("close-park-btn");
 const thoughtList = document.getElementById("thought-list");
 const quickThoughtList = document.getElementById("quick-thought-list");
+const completedLogsList = document.getElementById("completed-logs-list");
+const clearAllLogsBtn = document.getElementById("clear-all-logs-btn");
 const exportCsvBtn = document.getElementById("export-csv-btn");
 const syncInfo = document.getElementById("sync-info");
 const settingsBtn = document.getElementById("settings-btn");
@@ -393,8 +443,6 @@ function switchTab(tabId) {
   const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
   if (targetSec) targetSec.classList.add("active");
   if (targetBtn) targetBtn.classList.add("active");
-
-  floatingParkBtn.style.display = (tabId === "tab-anker" && timerInterval) ? "flex" : "none";
 }
 navItems.forEach(btn => {
   btn.onclick = () => switchTab(btn.dataset.tab);
@@ -429,6 +477,89 @@ function setupSpeech(btn, inputElem) {
 setupSpeech(document.getElementById("mic-main"), taskInput);
 setupSpeech(document.getElementById("mic-park"), parkInput);
 
+// --- To-Day (Max 3) Management ---
+function renderTodayList() {
+  const list = getStorage(STORAGE_TODAY);
+  todayList.innerHTML = "";
+  todayCountBadge.innerText = `${list.length} / 3`;
+
+  if (list.length >= 3) {
+    todayCountBadge.style.background = "rgba(239, 68, 68, 0.2)";
+    todayCountBadge.style.color = "var(--danger)";
+  } else {
+    todayCountBadge.style.background = "rgba(245, 158, 11, 0.15)";
+    todayCountBadge.style.color = "var(--warning)";
+  }
+
+  if (list.length === 0) {
+    todayList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.6rem;">Geen taken op To-Day. Voeg er maximaal 3 toe.</p>`;
+    return;
+  }
+
+  list.forEach(item => {
+    const el = document.createElement("div");
+    el.className = "list-item";
+    el.innerHTML = `
+      <div style="flex:1;">
+        <div class="list-item-title">${item.text}</div>
+      </div>
+      <div class="list-actions">
+        <button class="btn-action-icon btn-start" title="Start deze taak nu">▶ Start</button>
+        <button class="btn-action-icon btn-check" title="Direct afvinken">✓</button>
+        <button class="btn-action-icon btn-del" title="Verwijderen van To-Day">✕</button>
+      </div>
+    `;
+    el.querySelector(".btn-start").onclick = () => {
+      originalTask = item.text;
+      currentLinkedTodayId = item.id;
+      startSessionWithTask(item.text, item.text);
+    };
+    el.querySelector(".btn-check").onclick = () => {
+      removeTodayItem(item.id);
+      let count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0") + 1;
+      localStorage.setItem(STORAGE_KGD_COUNT, count);
+      updateVatDisplay();
+      syncToGoogleSheet({
+        type: "focus",
+        date: new Date().toLocaleString('nl-NL'),
+        task: item.text,
+        duration: "Direct afgevinkt",
+        seconds: 0,
+        status: "Afgerond (KGD)"
+      });
+    };
+    el.querySelector(".btn-del").onclick = () => removeTodayItem(item.id);
+    todayList.appendChild(el);
+  });
+}
+
+function addToToday(taskText) {
+  const clean = taskText.trim();
+  if (!clean) return;
+  const list = getStorage(STORAGE_TODAY);
+  if (list.length >= 3) {
+    alert("Je To-Day lijst is vol (max 3)! Voltooi of verwijder er eerst eentje om je focus te bewaren.");
+    return;
+  }
+  list.push({ id: Date.now(), text: clean });
+  setStorage(STORAGE_TODAY, list);
+  taskInput.value = "";
+  microBox.classList.remove("active");
+  renderTodayList();
+}
+
+function removeTodayItem(id) {
+  let list = getStorage(STORAGE_TODAY);
+  list = list.filter(item => item.id !== id);
+  setStorage(STORAGE_TODAY, list);
+  renderTodayList();
+}
+
+addToTodayBtn.onclick = () => {
+  const chosen = microBox.classList.contains("active") ? microText.innerText.trim() : taskInput.value.trim();
+  addToToday(chosen || taskInput.value.trim());
+};
+
 // --- Ophakken Flow ---
 breakdownBtn.onclick = () => {
   const val = taskInput.value.trim();
@@ -453,8 +584,49 @@ function formatTime(sec) {
   return `${m}:${s}`;
 }
 
-// --- Start Focus Flow ---
-startFocusBtn.onclick = async () => {
+// --- Start Session & Timer Control ---
+function startTimerInterval() {
+  if (timerInterval) clearInterval(timerInterval);
+  isTimerRunning = true;
+  timerToggleBtn.innerText = "⏸ Pauzeer Timer";
+  timerToggleBtn.className = "btn btn-secondary";
+  requestWakeLock();
+  timerInterval = setInterval(() => {
+    secondsElapsed++;
+    timerDisplay.innerText = formatTime(secondsElapsed);
+  }, 1000);
+}
+
+function pauseTimerInterval() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  isTimerRunning = false;
+  timerToggleBtn.innerText = "▶ Hervat Timer";
+  timerToggleBtn.className = "btn btn-primary";
+  releaseWakeLock();
+}
+
+timerToggleBtn.onclick = () => {
+  if (isTimerRunning) {
+    pauseTimerInterval();
+  } else {
+    startTimerInterval();
+  }
+};
+
+function startSessionWithTask(goal, micro) {
+  originalTask = goal;
+  activeMicroAction = micro;
+  activeGoalLabel.innerText = originalTask || activeMicroAction;
+  activeTaskLabel.innerText = activeMicroAction;
+  secondsElapsed = 0;
+  timerDisplay.innerText = "00:00";
+
+  switchTab("tab-anker");
+  startTimerInterval();
+}
+
+startFocusBtn.onclick = () => {
   const inputVal = taskInput.value.trim();
   if (!originalTask && inputVal) originalTask = inputVal;
 
@@ -462,24 +634,10 @@ startFocusBtn.onclick = async () => {
   if (!chosen) chosen = inputVal;
   if (!chosen) return;
 
-  activeMicroAction = chosen;
-  activeGoalLabel.innerText = originalTask || chosen;
-  activeTaskLabel.innerText = activeMicroAction;
-  secondsElapsed = 0;
-  timerDisplay.innerText = "00:00";
-
-  switchTab("tab-anker");
-  floatingParkBtn.style.display = "flex";
-
-  await requestWakeLock();
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    secondsElapsed++;
-    timerDisplay.innerText = formatTime(secondsElapsed);
-  }, 1000);
+  startSessionWithTask(originalTask || chosen, chosen);
 };
 
-// --- Vat van Zelfwaardering Update ---
+// --- Vat van Zelfwaardering ---
 function updateVatDisplay() {
   const count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0");
   kgdCounterText.innerText = `🎁 ${count} KGD'tjes vandaag`;
@@ -497,9 +655,7 @@ resetVatBtn.onclick = () => {
 
 // --- Einde Sessie ---
 function endSession(status, isKgdSuccess = false) {
-  clearInterval(timerInterval);
-  timerInterval = null;
-  releaseWakeLock();
+  pauseTimerInterval();
 
   const nowStr = new Date().toLocaleString('nl-NL');
   const durStr = formatTime(secondsElapsed);
@@ -507,20 +663,23 @@ function endSession(status, isKgdSuccess = false) {
     ? `${originalTask} → ${activeMicroAction}` 
     : activeMicroAction;
 
-  // Lokaal loggen
+  // Lokaal opslaan in focus logs
   const logs = getStorage(STORAGE_LOGS);
-  logs.unshift({ date: nowStr, task: fullLogTitle, duration: durStr, seconds: secondsElapsed, status: status });
+  logs.unshift({ id: Date.now(), date: nowStr, task: fullLogTitle, duration: durStr, seconds: secondsElapsed, status: status });
   setStorage(STORAGE_LOGS, logs);
 
-  // KGD teller verhogen
   if (isKgdSuccess) {
     let count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0") + 1;
     localStorage.setItem(STORAGE_KGD_COUNT, count);
 
-    // Als deze taak gekoppeld was aan een geparkeerde gedachte: ruim hem op!
+    // Ruim gekoppelde gedachte of to-day item op
     if (currentLinkedThoughtId) {
       completeThought(currentLinkedThoughtId, false);
       currentLinkedThoughtId = null;
+    }
+    if (currentLinkedTodayId) {
+      removeTodayItem(currentLinkedTodayId);
+      currentLinkedTodayId = null;
     }
   }
 
@@ -539,6 +698,8 @@ function endSession(status, isKgdSuccess = false) {
   microBox.classList.remove("active");
   updateVatDisplay();
   renderThoughts();
+  renderTodayList();
+  renderLogs();
   switchTab("tab-vat");
 }
 
@@ -552,10 +713,48 @@ pauseBtn.onclick = () => {
 };
 cancelBtn.onclick = () => {
   if (confirm("Zonder opslaan stoppen?")) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-    releaseWakeLock();
+    pauseTimerInterval();
     switchTab("tab-taak");
+  }
+};
+
+// --- Render Afgeronde Taken Logs ---
+function renderLogs() {
+  const logs = getStorage(STORAGE_LOGS);
+  completedLogsList.innerHTML = "";
+
+  if (logs.length === 0) {
+    completedLogsList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.6rem;">Nog geen taken afgerond vandaag.</p>`;
+    return;
+  }
+
+  logs.forEach((item, idx) => {
+    const el = document.createElement("div");
+    el.className = "list-item";
+    el.innerHTML = `
+      <div style="flex:1;">
+        <div class="list-item-title">${item.task}</div>
+        <div class="list-item-sub">${item.duration} • ${item.date}</div>
+      </div>
+      <div class="list-actions">
+        <button class="btn-action-icon btn-del" title="Verwijder uit lokaal overzicht">✕</button>
+      </div>
+    `;
+    el.querySelector(".btn-del").onclick = () => {
+      logs.splice(idx, 1);
+      setStorage(STORAGE_LOGS, logs);
+      renderLogs();
+    };
+    completedLogsList.appendChild(el);
+  });
+}
+
+clearAllLogsBtn.onclick = () => {
+  const logs = getStorage(STORAGE_LOGS);
+  if (logs.length === 0) return;
+  if (confirm("Alleen lokaal overzicht wissen? (Blijft gewoon bewaard in je Google Sheet)")) {
+    setStorage(STORAGE_LOGS, []);
+    renderLogs();
   }
 };
 
@@ -584,7 +783,7 @@ function deleteThought(id) {
   renderThoughts();
 }
 
-// --- Parkeerknop Flow ---
+// --- Parkeerknop Flow (Dedicated Floating Button) ---
 floatingParkBtn.onclick = () => { parkModal.style.display = "flex"; parkInput.focus(); };
 closeParkBtn.onclick = () => { parkModal.style.display = "none"; parkInput.value = ""; };
 saveParkBtn.onclick = () => {
@@ -631,7 +830,7 @@ testSyncBtn.onclick = async () => {
       headers: { "Content-Type": "text/plain" },
       body: JSON.stringify({ type: "thought", date: new Date().toLocaleString('nl-NL'), text: "Verbindingstest geslaagd! 🎉", status: "Getest" })
     });
-    alert("Test verzonden! Controleer je tabblad 'Gedachtendump' in je Google Sheet.");
+    alert("Test verzonden! Controleer je Google Sheet.");
   } catch (err) {
     alert("Fout bij verbinden: " + err.message);
   } finally {
@@ -650,7 +849,7 @@ function updateSyncStatus() {
   }
 }
 
-// --- Render Thoughts ---
+// --- Render Thoughts Lists ---
 function renderThoughts() {
   const list = getStorage(STORAGE_THOUGHTS).filter(t => t.status === "Open");
   thoughtList.innerHTML = "";
@@ -658,7 +857,7 @@ function renderThoughts() {
 
   if (list.length === 0) {
     thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen openstaande gedachten! 🎉</p>`;
-    quickThoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen openstaande taken.</p>`;
+    quickThoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen geparkeerde gedachten.</p>`;
     return;
   }
 
@@ -672,22 +871,14 @@ function renderThoughts() {
       </div>
       <div class="list-actions">
         <button class="btn-action-icon btn-check" title="Klaar / Afvinken">✓</button>
-        <button class="btn-action-icon" title="Oppakken als taak">Pak op</button>
         <button class="btn-action-icon btn-del" title="Verwijderen">✕</button>
       </div>
     `;
     el.querySelector(".btn-check").onclick = () => completeThought(item.id, true);
     el.querySelector(".btn-del").onclick = () => deleteThought(item.id);
-    el.querySelectorAll(".btn-action-icon")[1].onclick = () => {
-      taskInput.value = item.text;
-      originalTask = item.text;
-      currentLinkedThoughtId = item.id;
-      switchTab("tab-taak");
-      taskInput.scrollIntoView({ behavior: 'smooth' });
-    };
     thoughtList.appendChild(el);
 
-    // In Tab 1 (Quick list)
+    // In Tab 1 (Quick list met Naar To-Day & Pak op)
     const quickEl = document.createElement("div");
     quickEl.className = "list-item";
     quickEl.innerHTML = `
@@ -695,16 +886,17 @@ function renderThoughts() {
         <div class="list-item-title">${item.text}</div>
       </div>
       <div class="list-actions">
-        <button class="btn-action-icon btn-check" title="Klaar / Afvinken">✓</button>
-        <button class="btn-action-icon" style="color:var(--accent);">Pak op</button>
+        <button class="btn-action-icon btn-today" style="color:var(--warning);" title="Zet op To-Day lijst">📌 To-Day</button>
+        <button class="btn-action-icon btn-start" title="Pak direct op">▶ Nu</button>
       </div>
     `;
-    quickEl.querySelector(".btn-check").onclick = () => completeThought(item.id, true);
-    quickEl.querySelectorAll(".btn-action-icon")[1].onclick = () => {
-      taskInput.value = item.text;
-      originalTask = item.text;
+    quickEl.querySelector(".btn-today").onclick = () => {
+      addToToday(item.text);
+      deleteThought(item.id);
+    };
+    quickEl.querySelector(".btn-start").onclick = () => {
       currentLinkedThoughtId = item.id;
-      taskInput.scrollIntoView({ behavior: 'smooth' });
+      startSessionWithTask(item.text, item.text);
     };
     quickThoughtList.appendChild(quickEl);
   });
@@ -725,8 +917,11 @@ exportCsvBtn.onclick = () => {
   a.click();
 };
 
+// Initialisaties
+renderTodayList();
 updateVatDisplay();
 renderThoughts();
+renderLogs();
 updateSyncStatus();
 </script>
 </body>
