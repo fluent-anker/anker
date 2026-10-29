@@ -206,7 +206,7 @@
     </div>
   </section>
 
-  <!-- TAB 3: MIJN DAG (OPTIE A) -->
+  <!-- TAB 3: MIJN DAG -->
   <section id="tab-dag" class="tab-section">
     <header>
       <h1>Mijn Dag<span>.</span></h1>
@@ -223,7 +223,7 @@
     <div class="day-block">
       <div class="day-block-header">
         <div class="day-block-title" style="color: #38bdf8;">🌅 Ochtend (Focus)</div>
-        <button class="btn-action-icon" onclick="promptAddDayItem('ochtend')">+ Toevoegen</button>
+        <button class="btn-action-icon" id="add-day-ochtend-btn">+ Toevoegen</button>
       </div>
       <div id="day-list-ochtend"></div>
     </div>
@@ -232,7 +232,7 @@
     <div class="day-block">
       <div class="day-block-header">
         <div class="day-block-title" style="color: #f59e0b;">☀️ Middag (Productie)</div>
-        <button class="btn-action-icon" onclick="promptAddDayItem('middag')">+ Toevoegen</button>
+        <button class="btn-action-icon" id="add-day-middag-btn">+ Toevoegen</button>
       </div>
       <div id="day-list-middag"></div>
     </div>
@@ -241,7 +241,7 @@
     <div class="day-block">
       <div class="day-block-header">
         <div class="day-block-title" style="color: #a855f7;">🌙 Avond & Afronden (Laadpaal)</div>
-        <button class="btn-action-icon" onclick="promptAddDayItem('avond')">+ Toevoegen</button>
+        <button class="btn-action-icon" id="add-day-avond-btn">+ Toevoegen</button>
       </div>
       <div id="day-list-avond"></div>
     </div>
@@ -359,13 +359,12 @@
 
 <script>
 // --- State & Storage ---
-let currentContext = "Privé"; // "Privé" of "Werk"
+let currentContext = "Privé";
 let originalTask = "";
 let activeMicroAction = "";
 let currentLinkedThoughtId = null;
 let currentLinkedTodayId = null;
 
-// Betrouwbare Kloktijd Timer State
 let timerStartTime = null;
 let accumulatedSeconds = 0;
 let timerInterval = null;
@@ -386,12 +385,77 @@ const STORAGE_KGD_COUNT = "anker_kgd_count_" + new Date().toISOString().slice(0,
 function getStorage(key) { return JSON.parse(localStorage.getItem(key) || "[]"); }
 function setStorage(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
-// --- Context Switcher ---
+// --- DOM ELEMENTEN ---
 const ctxPriveBtn = document.getElementById("ctx-prive-btn");
 const ctxWerkBtn = document.getElementById("ctx-werk-btn");
 const todayHeaderTitle = document.getElementById("today-header-title");
-const activeContextBadge = document.getElementById("active-context-badge");
+const todayCountBadge = document.getElementById("today-count-badge");
+const todayList = document.getElementById("today-list");
 
+const taskInput = document.getElementById("task-input");
+const micMain = document.getElementById("mic-main");
+const breakdownBtn = document.getElementById("breakdown-btn");
+const addToTodayBtn = document.getElementById("add-to-today-btn");
+const microBox = document.getElementById("micro-box");
+const refreshMicroBtn = document.getElementById("refresh-micro-btn");
+const microParentPreview = document.getElementById("micro-parent-preview");
+const microText = document.getElementById("micro-text");
+const startFocusBtn = document.getElementById("start-focus-btn");
+const quickThoughtList = document.getElementById("quick-thought-list");
+
+const activeContextBadge = document.getElementById("active-context-badge");
+const activeGoalLabel = document.getElementById("active-goal-label");
+const activeTaskLabel = document.getElementById("active-task-label");
+const timerDisplay = document.getElementById("timer-display");
+const timerToggleBtn = document.getElementById("timer-toggle-btn");
+const doneBtn = document.getElementById("done-btn");
+const pauseBtn = document.getElementById("pause-btn");
+const cancelBtn = document.getElementById("cancel-btn");
+
+const resetDayBtn = document.getElementById("reset-day-btn");
+const addDayOchtendBtn = document.getElementById("add-day-ochtend-btn");
+const addDayMiddagBtn = document.getElementById("add-day-middag-btn");
+const addDayAvondBtn = document.getElementById("add-day-avond-btn");
+
+const settingsBtn = document.getElementById("settings-btn");
+const resetVatBtn = document.getElementById("reset-vat-btn");
+const vatFluid = document.getElementById("vat-fluid");
+const kgdCounterText = document.getElementById("kgd-counter-text");
+const clearAllLogsBtn = document.getElementById("clear-all-logs-btn");
+const completedLogsList = document.getElementById("completed-logs-list");
+const thoughtList = document.getElementById("thought-list");
+const exportCsvBtn = document.getElementById("export-csv-btn");
+const syncInfo = document.getElementById("sync-info");
+
+const floatingParkBtn = document.getElementById("floating-park-btn");
+const parkModal = document.getElementById("park-modal");
+const parkInput = document.getElementById("park-input");
+const micPark = document.getElementById("mic-park");
+const saveParkBtn = document.getElementById("save-park-btn");
+const closeParkBtn = document.getElementById("close-park-btn");
+
+const settingsModal = document.getElementById("settings-modal");
+const sheetUrlInput = document.getElementById("sheet-url-input");
+const testSyncBtn = document.getElementById("test-sync-btn");
+const saveSettingsBtn = document.getElementById("save-settings-btn");
+const closeSettingsBtn = document.getElementById("close-settings-btn");
+
+// --- TAB NAVIGATIE ---
+function switchTab(tabId) {
+  document.querySelectorAll(".tab-section").forEach(sec => sec.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
+
+  const targetSec = document.getElementById(tabId);
+  const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
+  if (targetSec) targetSec.classList.add("active");
+  if (targetBtn) targetBtn.classList.add("active");
+}
+
+document.querySelectorAll(".nav-item").forEach(btn => {
+  btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+});
+
+// --- Context Switcher ---
 ctxPriveBtn.onclick = () => setContext("Privé");
 ctxWerkBtn.onclick = () => setContext("Werk");
 
@@ -429,7 +493,7 @@ async function syncToGoogleSheet(payload) {
   }
 }
 
-// --- BETROUWBARE KLOKTIJD TIMER (Lockscreen proof) ---
+// --- KLOKTIJD TIMER ---
 function getActualElapsedSeconds() {
   if (!isTimerRunning) return accumulatedSeconds;
   const now = Date.now();
@@ -471,7 +535,6 @@ timerToggleBtn.onclick = () => {
   if (isTimerRunning) { pauseTimer(); } else { startTimer(); }
 };
 
-// Direct bijwerken zodra scherm ontgrendelt
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible") {
     updateTimerDisplay();
@@ -504,8 +567,8 @@ function setupSpeech(btn, inputElem) {
   recog.onerror = () => btn.classList.remove('recording');
   recog.onend = () => btn.classList.remove('recording');
 }
-setupSpeech(document.getElementById("mic-main"), taskInput);
-setupSpeech(document.getElementById("mic-park"), parkInput);
+setupSpeech(micMain, taskInput);
+setupSpeech(micPark, parkInput);
 
 // --- To-Day (Max 3 per Context) ---
 function getActiveTodayStorageKey() {
@@ -768,6 +831,7 @@ function renderDayPlan() {
   const plan = getStorage(STORAGE_DAY_PLAN) || { ochtend: [], middag: [], avond: [] };
   ['ochtend', 'middag', 'avond'].forEach(slot => {
     const listEl = document.getElementById(`day-list-${slot}`);
+    if (!listEl) return;
     listEl.innerHTML = "";
     const items = plan[slot] || [];
     if (items.length === 0) {
@@ -797,7 +861,7 @@ function renderDayPlan() {
   });
 }
 
-function promptAddDayItem(slot) {
+function addDayItemPrompt(slot) {
   const text = prompt(`Wat plan je voor de ${slot}?`);
   if (!text || !text.trim()) return;
   const plan = getStorage(STORAGE_DAY_PLAN) || { ochtend: [], middag: [], avond: [] };
@@ -807,7 +871,11 @@ function promptAddDayItem(slot) {
   renderDayPlan();
 }
 
-document.getElementById("reset-day-btn").onclick = () => {
+addDayOchtendBtn.onclick = () => addDayItemPrompt('ochtend');
+addDayMiddagBtn.onclick = () => addDayItemPrompt('middag');
+addDayAvondBtn.onclick = () => addDayItemPrompt('avond');
+
+resetDayBtn.onclick = () => {
   if (confirm("Dagplanning leegmaken voor vandaag?")) {
     setStorage(STORAGE_DAY_PLAN, { ochtend: [], middag: [], avond: [] });
     renderDayPlan();
@@ -930,7 +998,7 @@ function renderThoughts() {
   });
 }
 
-// --- Dedicated Floating Parkeerknop ---
+// --- Floating Parkeerknop ---
 floatingParkBtn.onclick = () => { parkModal.style.display = "flex"; parkInput.focus(); };
 closeParkBtn.onclick = () => { parkModal.style.display = "none"; parkInput.value = ""; };
 saveParkBtn.onclick = () => {
@@ -996,20 +1064,6 @@ function updateSyncStatus() {
     syncInfo.innerText = "☁️ Alleen lokaal opgeslagen (tik op ⚙️ om te koppelen)";
   }
 }
-
-// --- Bottom Tab Navigation ---
-function switchTab(tabId) {
-  document.querySelectorAll(".tab-section").forEach(sec => sec.classList.remove("active"));
-  document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
-
-  const targetSec = document.getElementById(tabId);
-  const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
-  if (targetSec) targetSec.classList.add("active");
-  if (targetBtn) targetBtn.classList.add("active");
-}
-document.querySelectorAll(".nav-item").forEach(btn => {
-  btn.onclick = () => switchTab(btn.dataset.tab);
-});
 
 // --- CSV Export ---
 exportCsvBtn.onclick = () => {
