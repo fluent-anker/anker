@@ -20,28 +20,33 @@
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
+      --work: #a855f7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 80px; }
-    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 78px; }
+    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 1.15rem; flex: 1; display: flex; flex-direction: column; }
     
-    /* Header */
-    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.85rem; border-bottom: 1px solid var(--card-border); margin-bottom: 1.25rem; }
-    h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
+    /* Header & Context Switcher */
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.85rem; border-bottom: 1px solid var(--card-border); margin-bottom: 1rem; }
+    h1 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
     h1 span { color: var(--accent); }
-    .badge { font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 0.25rem 0.6rem; border-radius: 999px; font-weight: 600; }
+    
+    .context-switch { display: flex; background: #060911; border: 1.5px solid var(--card-border); border-radius: 999px; padding: 2px; }
+    .context-btn { background: none; border: none; color: var(--text-muted); padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 700; border-radius: 999px; cursor: pointer; transition: all 0.2s ease; }
+    .context-btn.active.prive { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
+    .context-btn.active.werk { background: rgba(168, 85, 247, 0.2); color: var(--work); }
 
     /* Cards & Inputs */
-    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; margin-bottom: 1rem; }
+    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.15rem; padding: 1.15rem; margin-bottom: 1rem; }
     .input-wrapper { position: relative; margin-bottom: 0.75rem; }
-    textarea, input[type="text"] { width: 100%; background: #060911; border: 1.5px solid var(--card-border); border-radius: 0.85rem; color: var(--text); padding: 0.85rem 3rem 0.85rem 0.85rem; font-size: 1rem; resize: none; outline: none; }
+    textarea, input[type="text"] { width: 100%; background: #060911; border: 1.5px solid var(--card-border); border-radius: 0.85rem; color: var(--text); padding: 0.85rem 3rem 0.85rem 0.85rem; font-size: 0.95rem; resize: none; outline: none; }
     textarea:focus, input[type="text"]:focus { border-color: var(--accent); }
     .mic-btn { position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 1.3rem; color: var(--text-muted); cursor: pointer; padding: 0.25rem; }
     .mic-btn.recording { color: var(--danger); animation: pulse 1s infinite; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
     /* Buttons */
-    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.85rem; border-radius: 0.85rem; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: transform 0.1s ease; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.8rem; border-radius: 0.85rem; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: transform 0.1s ease; }
     .btn-primary { background: var(--accent); color: #041019; }
     .btn-secondary { background: #1e293b; color: var(--text); }
     .btn-success { background: var(--success); color: #022316; }
@@ -50,18 +55,18 @@
     .btn:active { transform: scale(0.98); }
 
     /* Ophak Box */
-    .micro-box { background: rgba(56, 189, 248, 0.08); border: 1px dashed var(--accent); border-radius: 1rem; padding: 1rem; margin-top: 0.75rem; display: none; }
+    .micro-box { background: rgba(56, 189, 248, 0.08); border: 1px dashed var(--accent); border-radius: 1rem; padding: 0.85rem; margin-top: 0.75rem; display: none; }
     .micro-box.active { display: block; }
-    .micro-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; }
+    .micro-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
     .micro-title { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
     .micro-refresh { background: none; border: none; color: var(--text-muted); font-size: 1.1rem; cursor: pointer; }
-    .micro-parent-task { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
-    .micro-text { font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; background: rgba(0,0,0,0.25); padding: 0.5rem; border-radius: 0.5rem; }
+    .micro-parent-task { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .micro-text { font-size: 1rem; font-weight: 600; color: #fff; line-height: 1.4; outline: none; background: rgba(0,0,0,0.25); padding: 0.5rem; border-radius: 0.5rem; }
 
-    /* Bottom Nav Bar */
+    /* Bottom Nav Bar (4 Tabs) */
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 68px; background: #060911; border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 150; max-width: 480px; margin: 0 auto; }
-    .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; height: 100%; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600; gap: 0.25rem; }
-    .nav-item .icon { font-size: 1.35rem; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; height: 100%; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.7rem; font-weight: 600; gap: 0.2rem; }
+    .nav-item .icon { font-size: 1.25rem; }
     .nav-item.active { color: var(--accent); }
 
     /* Sections */
@@ -70,37 +75,43 @@
 
     /* Nu-Anker Section */
     .focus-display { text-align: center; margin: auto 0; padding: 1.5rem 0; }
-    .goal-pill { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(56, 189, 248, 0.12); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.4rem 0.85rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem; max-width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .focus-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; font-weight: 700; }
-    .focus-task { font-size: 1.75rem; font-weight: 800; line-height: 1.25; margin-bottom: 1.25rem; color: #ffffff; padding: 0 0.5rem; }
+    .goal-pill { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(56, 189, 248, 0.12); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; max-width: 90%; }
+    .focus-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.3rem; font-weight: 700; }
+    .focus-task { font-size: 1.65rem; font-weight: 800; line-height: 1.25; margin-bottom: 1.2rem; color: #ffffff; padding: 0 0.5rem; }
     .timer { font-size: 3.8rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; color: var(--text); margin-bottom: 1rem; }
     .wake-lock-status { font-size: 0.75rem; color: var(--success); display: inline-flex; align-items: center; gap: 0.35rem; }
     .dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
 
-    /* Vat van Zelfwaardering Visual */
-    .vat-container { border: 3px solid #38bdf8; border-top: none; border-radius: 0 0 2rem 2rem; height: 160px; width: 180px; margin: 0.5rem auto 1rem; position: relative; overflow: hidden; background: rgba(15, 23, 42, 0.6); display: flex; flex-direction: column; justify-content: flex-end; }
-    .vat-fluid { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); width: 100%; transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; color: #041019; font-weight: 800; font-size: 0.95rem; }
-    .vat-label-top { position: absolute; top: 8px; width: 100%; text-align: center; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
-    .kgd-counter-badge { text-align: center; font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem; }
+    /* Dagplanner Blokken (Tab 3) */
+    .day-block { background: #060911; border: 1px solid var(--card-border); border-radius: 0.85rem; padding: 0.85rem; margin-bottom: 0.75rem; }
+    .day-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .day-block-title { font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 0.35rem; }
+    .day-item-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+    .day-item-row.done span { text-decoration: line-through; color: var(--text-muted); }
 
-    /* Dedicated Floating Parkeerknop - ALTIJD ZICHTBAAR */
-    .park-btn { position: fixed; bottom: 82px; right: 1.25rem; width: 62px; height: 62px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.75rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.6); cursor: pointer; z-index: 140; }
+    /* Vat van Zelfwaardering Visual */
+    .vat-container { border: 3px solid #38bdf8; border-top: none; border-radius: 0 0 2rem 2rem; height: 140px; width: 170px; margin: 0.4rem auto 0.85rem; position: relative; overflow: hidden; background: rgba(15, 23, 42, 0.6); display: flex; flex-direction: column; justify-content: flex-end; }
+    .vat-fluid { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); width: 100%; transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; color: #041019; font-weight: 800; font-size: 0.95rem; }
+    .vat-label-top { position: absolute; top: 6px; width: 100%; text-align: center; font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
+    .kgd-counter-badge { text-align: center; font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 0.3rem; }
+
+    /* Dedicated Floating Parkeerknop */
+    .park-btn { position: fixed; bottom: 82px; right: 1.25rem; width: 60px; height: 60px; border-radius: 50%; background: #2563eb; color: #fff; border: 2px solid #60a5fa; font-size: 1.75rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.6); cursor: pointer; z-index: 140; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1.25rem; z-index: 200; }
     .modal { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.25rem; width: 100%; max-width: 400px; }
 
-    /* Item Cards & Lists */
-    .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.75rem 0.85rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; gap: 0.5rem; }
-    .list-item-title { font-weight: 600; margin-bottom: 0.15rem; word-break: break-word; }
-    .list-item-sub { font-size: 0.75rem; color: var(--text-muted); }
-    .list-actions { display: flex; align-items: center; gap: 0.35rem; flex-shrink: 0; }
-    .btn-action-icon { background: #1e293b; border: none; color: var(--text); border-radius: 0.5rem; padding: 0.4rem 0.6rem; font-size: 0.8rem; cursor: pointer; }
+    /* List Items */
+    .list-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.75rem; padding: 0.65rem 0.8rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; gap: 0.5rem; }
+    .list-item-title { font-weight: 600; word-break: break-word; }
+    .list-item-sub { font-size: 0.7rem; color: var(--text-muted); }
+    .list-actions { display: flex; align-items: center; gap: 0.3rem; flex-shrink: 0; }
+    .btn-action-icon { background: #1e293b; border: none; color: var(--text); border-radius: 0.45rem; padding: 0.35rem 0.55rem; font-size: 0.75rem; cursor: pointer; }
     .btn-check { background: rgba(16, 185, 129, 0.2); color: var(--success); }
     .btn-del { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
     .btn-start { background: rgba(56, 189, 248, 0.2); color: var(--accent); font-weight: 700; }
-
-    /* To-Day Box styling */
-    .today-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
-    .today-badge { font-size: 0.75rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 999px; background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+    .tag-badge { font-size: 0.65rem; padding: 0.15rem 0.4rem; border-radius: 999px; font-weight: 700; margin-right: 0.35rem; }
+    .tag-prive { background: rgba(56, 189, 248, 0.15); color: var(--accent); }
+    .tag-werk { background: rgba(168, 85, 247, 0.15); color: var(--work); }
   </style>
 </head>
 <body>
@@ -110,17 +121,20 @@
   <section id="tab-taak" class="tab-section active">
     <header>
       <h1>Anker<span>.</span></h1>
-      <span class="badge">1. Bepalen & To-Day</span>
+      <div class="context-switch">
+        <button id="ctx-prive-btn" class="context-btn active prive">🏠 Privé</button>
+        <button id="ctx-werk-btn" class="context-btn werk">💼 Werk</button>
+      </div>
     </header>
 
-    <!-- To-Day Lijst (Strikt Max 3) -->
-    <div class="card" style="border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.03);">
-      <div class="today-header">
-        <h2 style="font-size: 1rem; font-weight: 800; color: #fcd34d;">🎯 To-Day Lijst (Max 3)</h2>
-        <span class="today-badge" id="today-count-badge">0 / 3</span>
+    <!-- To-Day Lijst (Max 3) -->
+    <div class="card" style="border: 1px solid rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.02);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+        <h2 style="font-size: 0.95rem; font-weight: 800; color: #fcd34d;" id="today-header-title">🎯 To-Day (Privé)</h2>
+        <span class="badge" id="today-count-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);">0 / 3</span>
       </div>
-      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-        Kies maximaal 3 prioriteiten voor vandaag. Niet meer, niet minder.
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem;">
+        Maximaal 3 focusdoelen voor vandaag.
       </p>
       <div id="today-list"></div>
     </div>
@@ -128,17 +142,13 @@
     <!-- Invoer & Ophakken -->
     <div class="card">
       <div class="input-wrapper">
-        <textarea id="task-input" rows="2" placeholder="Nieuwe taak (typ of spreek in)"></textarea>
+        <textarea id="task-input" rows="2" placeholder="Wat ga je doen? (typ of spreek in)"></textarea>
         <button id="mic-main" class="mic-btn" title="Inspreken">🎙️</button>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.75rem;">
-        <button id="breakdown-btn" class="btn btn-secondary">
-          ✂️ Knip op
-        </button>
-        <button id="add-to-today-btn" class="btn btn-secondary" style="border-color: rgba(245, 158, 11, 0.3);">
-          📌 Naar To-Day
-        </button>
+        <button id="breakdown-btn" class="btn btn-secondary">✂️ Knip op</button>
+        <button id="add-to-today-btn" class="btn btn-secondary">📌 Naar To-Day</button>
       </div>
 
       <div id="micro-box" class="micro-box">
@@ -150,25 +160,25 @@
         <div id="micro-text" class="micro-text" contenteditable="true"></div>
       </div>
 
-      <button id="start-focus-btn" class="btn btn-primary" style="margin-top: 0.75rem;">
+      <button id="start-focus-btn" class="btn btn-primary" style="margin-top: 0.5rem;">
         ▶ Start Nu-Anker Direct
       </button>
     </div>
 
     <!-- Gedachten Opvangbak -->
     <div class="card">
-      <h2 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem;">Geparkeerde Gedachten</h2>
+      <h2 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem;">Geparkeerde Gedachten</h2>
       <div id="quick-thought-list"></div>
     </div>
   </section>
 
-  <!-- TAB 2: NU-ANKER (FOCUS DASHBOARD) -->
+  <!-- TAB 2: NU-ANKER -->
   <section id="tab-anker" class="tab-section">
     <header>
       <div class="wake-lock-status">
         <span style="font-size: 0.6rem;">🟢</span> Scherm blijft actief
       </div>
-      <span class="badge">2. Nu-Anker</span>
+      <span class="badge" id="active-context-badge">Privé</span>
     </header>
 
     <div class="focus-display">
@@ -180,20 +190,15 @@
       
       <div class="timer" id="timer-display">00:00</div>
       
-      <!-- Start / Pauze van Timer Zelf -->
-      <button id="timer-toggle-btn" class="btn btn-secondary" style="width: auto; padding: 0.45rem 1.2rem; font-size: 0.85rem; margin: 0 auto 1.5rem;">
+      <button id="timer-toggle-btn" class="btn btn-secondary" style="width: auto; padding: 0.4rem 1.1rem; font-size: 0.85rem; margin: 0 auto 1.5rem;">
         ⏸ Pauzeer Timer
       </button>
     </div>
 
     <div>
       <div class="dashboard-actions">
-        <button id="done-btn" class="btn btn-success">
-          🟢 Klaar! (+1 KGD)
-        </button>
-        <button id="pause-btn" class="btn btn-warning">
-          🟡 Niet af / Opslaan
-        </button>
+        <button id="done-btn" class="btn btn-success">🟢 Klaar! (+1 KGD)</button>
+        <button id="pause-btn" class="btn btn-warning">🟡 Niet af / Opslaan</button>
       </div>
       <button id="cancel-btn" class="btn btn-secondary" style="background: transparent; color: var(--text-muted); font-size: 0.85rem;">
         Afbreken zonder opslaan
@@ -201,7 +206,48 @@
     </div>
   </section>
 
-  <!-- TAB 3: LOG & VAT -->
+  <!-- TAB 3: MIJN DAG (OPTIE A) -->
+  <section id="tab-dag" class="tab-section">
+    <header>
+      <h1>Mijn Dag<span>.</span></h1>
+      <button id="reset-day-btn" class="btn btn-secondary" style="width: auto; padding: 0.3rem 0.65rem; font-size: 0.75rem;">
+        🔄 Schone Dag
+      </button>
+    </header>
+
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+      Verdeel je dag in 3 energieblokken zonder tijdsstress.
+    </p>
+
+    <!-- Ochtend Blok -->
+    <div class="day-block">
+      <div class="day-block-header">
+        <div class="day-block-title" style="color: #38bdf8;">🌅 Ochtend (Focus)</div>
+        <button class="btn-action-icon" onclick="promptAddDayItem('ochtend')">+ Toevoegen</button>
+      </div>
+      <div id="day-list-ochtend"></div>
+    </div>
+
+    <!-- Middag Blok -->
+    <div class="day-block">
+      <div class="day-block-header">
+        <div class="day-block-title" style="color: #f59e0b;">☀️ Middag (Productie)</div>
+        <button class="btn-action-icon" onclick="promptAddDayItem('middag')">+ Toevoegen</button>
+      </div>
+      <div id="day-list-middag"></div>
+    </div>
+
+    <!-- Avond Blok -->
+    <div class="day-block">
+      <div class="day-block-header">
+        <div class="day-block-title" style="color: #a855f7;">🌙 Avond & Afronden (Laadpaal)</div>
+        <button class="btn-action-icon" onclick="promptAddDayItem('avond')">+ Toevoegen</button>
+      </div>
+      <div id="day-list-avond"></div>
+    </div>
+  </section>
+
+  <!-- TAB 4: LOG & VAT -->
   <section id="tab-vat" class="tab-section">
     <header>
       <h1>Log & Vat<span>.</span></h1>
@@ -211,7 +257,7 @@
     <!-- Vat van Zelfwaardering -->
     <div class="card" style="text-align: center;">
       <div class="kgd-counter-badge" id="kgd-counter-text">🎁 0 KGD'tjes vandaag</div>
-      <button id="reset-vat-btn" class="btn btn-secondary" style="width: auto; padding: 0.3rem 0.8rem; font-size: 0.75rem; margin: 0 auto 0.75rem;">
+      <button id="reset-vat-btn" class="btn btn-secondary" style="width: auto; padding: 0.25rem 0.75rem; font-size: 0.75rem; margin: 0 auto 0.65rem;">
         🔄 Reset dagteller
       </button>
       <div class="vat-container">
@@ -223,22 +269,22 @@
       </p>
     </div>
 
-    <!-- Afgeronde Taken Sectie (met enkel & alles wissen) -->
+    <!-- Afgeronde Taken Sectie -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-        <h2 style="font-size: 0.95rem; font-weight: 700;">✅ Afgeronde Taken (Vandaag)</h2>
-        <button id="clear-all-logs-btn" class="btn btn-secondary" style="width: auto; padding: 0.3rem 0.6rem; font-size: 0.75rem; color: var(--danger);">
+        <h2 style="font-size: 0.9rem; font-weight: 700;">✅ Afgeronde Taken (Vandaag)</h2>
+        <button id="clear-all-logs-btn" class="btn btn-secondary" style="width: auto; padding: 0.25rem 0.55rem; font-size: 0.75rem; color: var(--danger);">
           Wis overzicht
         </button>
       </div>
       <div id="completed-logs-list"></div>
     </div>
 
-    <!-- Geparkeerde Gedachten & CSV -->
+    <!-- Alle Gedachten & CSV -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-        <h2 style="font-size: 0.95rem; font-weight: 700;">Geparkeerde Gedachten</h2>
-        <button id="export-csv-btn" class="btn btn-secondary" style="width: auto; padding: 0.35rem 0.65rem; font-size: 0.75rem;">
+        <h2 style="font-size: 0.9rem; font-weight: 700;">Geparkeerde Gedachten</h2>
+        <button id="export-csv-btn" class="btn btn-secondary" style="width: auto; padding: 0.25rem 0.55rem; font-size: 0.75rem;">
           📥 CSV
         </button>
       </div>
@@ -250,10 +296,10 @@
   </section>
 </div>
 
-<!-- DEDICATED FLOATING PARKEERKNOP: ALTIJD ZICHTBAAR -->
+<!-- DEDICATED FLOATING PARKEERKNOP -->
 <button id="floating-park-btn" class="park-btn" title="Parkeer gedachte">🧠</button>
 
-<!-- Bottom Navigatiebalk -->
+<!-- Bottom Navigatiebalk (4 Tabs) -->
 <nav class="bottom-nav">
   <button class="nav-item active" data-tab="tab-taak">
     <span class="icon">📝</span>
@@ -262,6 +308,10 @@
   <button class="nav-item" data-tab="tab-anker">
     <span class="icon">⚓</span>
     <span>Nu-Anker</span>
+  </button>
+  <button class="nav-item" data-tab="tab-dag">
+    <span class="icon">📅</span>
+    <span>Mijn Dag</span>
   </button>
   <button class="nav-item" data-tab="tab-vat">
     <span class="icon">🏺</span>
@@ -272,9 +322,9 @@
 <!-- Parkeer Modal -->
 <div id="park-modal" class="modal-overlay">
   <div class="modal">
-    <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">🧠 Gedachtendump</div>
+    <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.4rem;">🧠 Gedachtendump</div>
     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-      Timer loopt door. Dumpt het uit je hoofd en ga direct weer verder.
+      Timer loopt betrouwbaar door. Schrijf het uit je hoofd en ga direct weer verder.
     </p>
     <div class="input-wrapper">
       <input type="text" id="park-input" placeholder="Wat popt er net op?">
@@ -308,26 +358,60 @@
 </div>
 
 <script>
-// --- State & Storage Keys ---
+// --- State & Storage ---
+let currentContext = "Privé"; // "Privé" of "Werk"
 let originalTask = "";
 let activeMicroAction = "";
 let currentLinkedThoughtId = null;
 let currentLinkedTodayId = null;
+
+// Betrouwbare Kloktijd Timer State
+let timerStartTime = null;
+let accumulatedSeconds = 0;
 let timerInterval = null;
 let isTimerRunning = false;
-let secondsElapsed = 0;
 let wakeLock = null;
+
 let currentSuggestions = [];
 let suggestionIndex = 0;
 
 const STORAGE_LOGS = "anker_focus_log";
 const STORAGE_THOUGHTS = "anker_thoughts";
-const STORAGE_TODAY = "anker_today_list";
+const STORAGE_TODAY_PRIVE = "anker_today_prive";
+const STORAGE_TODAY_WERK = "anker_today_werk";
+const STORAGE_DAY_PLAN = "anker_day_plan_" + new Date().toISOString().slice(0, 10);
 const STORAGE_SHEET_URL = "anker_sheet_url";
 const STORAGE_KGD_COUNT = "anker_kgd_count_" + new Date().toISOString().slice(0, 10);
 
 function getStorage(key) { return JSON.parse(localStorage.getItem(key) || "[]"); }
 function setStorage(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+// --- Context Switcher ---
+const ctxPriveBtn = document.getElementById("ctx-prive-btn");
+const ctxWerkBtn = document.getElementById("ctx-werk-btn");
+const todayHeaderTitle = document.getElementById("today-header-title");
+const activeContextBadge = document.getElementById("active-context-badge");
+
+ctxPriveBtn.onclick = () => setContext("Privé");
+ctxWerkBtn.onclick = () => setContext("Werk");
+
+function setContext(ctx) {
+  currentContext = ctx;
+  if (ctx === "Privé") {
+    ctxPriveBtn.className = "context-btn active prive";
+    ctxWerkBtn.className = "context-btn werk";
+    todayHeaderTitle.innerText = "🎯 To-Day (Privé)";
+    todayHeaderTitle.style.color = "#38bdf8";
+  } else {
+    ctxPriveBtn.className = "context-btn prive";
+    ctxWerkBtn.className = "context-btn active werk";
+    todayHeaderTitle.innerText = "🎯 To-Day (Werk)";
+    todayHeaderTitle.style.color = "#c084fc";
+  }
+  activeContextBadge.innerText = ctx;
+  renderTodayList();
+  renderThoughts();
+}
 
 // --- Cloud Sync to Google Sheets ---
 async function syncToGoogleSheet(payload) {
@@ -345,107 +429,53 @@ async function syncToGoogleSheet(payload) {
   }
 }
 
-// --- Dynamische KGD Ophakker ---
-function generateMicroSteps(task) {
-  const clean = task.trim();
-  const lower = clean.toLowerCase();
-
-  if (/mail|bericht|app|bel|contact|vragen/i.test(lower)) {
-    return [
-      `Open je mail of app en zoek alleen de naam op voor '${clean}'.`,
-      `Typ alleen de allereerste begroeting en openingszin.`,
-      `Schrijf op papier kort in 3 woorden wat je wilt vragen.`
-    ];
-  }
-  if (/koop|haal|melk|supermarkt|winkel|boodschap/i.test(lower)) {
-    return [
-      `Schrijf '${clean}' direct bovenaan op een leeg briefje.`,
-      `Zet je schoenen en sleutels alvast klaar bij de deur.`,
-      `Controleer in de kast of koelkast wat je precies nodig hebt.`
-    ];
-  }
-  if (/opruim|schoon|was|stofzuig|afwas|vaat/i.test(lower)) {
-    return [
-      `Pak exact 1 rondslingerend voorwerp op en zet het terug.`,
-      `Zet alleen de vaatwasser of wasmand wijd open.`,
-      `Gooi 1 stuk afval in de prullenbak.`
-    ];
-  }
-  if (/schrijf|verslag|document|rapport|typ|studeer|lees/i.test(lower)) {
-    return [
-      `Open een leeg document en typ alleen de titel '${clean}'.`,
-      `Lees alleen de allereerste alinea of alinea-kop.`,
-      `Schrijf 3 losse steekwoorden op een vel papier.`
-    ];
-  }
-  if (/administratie|factuur|betaal|rekening|belasting|geld/i.test(lower)) {
-    return [
-      `Log alleen in op de website/bank en doe verder nog niets.`,
-      `Leg de betreffende brief of factuur voor je op tafel.`,
-      `Open de downloadmap op je computer.`
-    ];
-  }
-
-  return [
-    `Leg alleen de benodigdheden voor '${clean}' klaar op je bureau.`,
-    `Open het scherm of programma voor '${clean}' en kijk er 30 seconden rustig naar.`,
-    `Doe alleen de allereerste handeling van 60 seconden voor '${clean}'.`
-  ];
+// --- BETROUWBARE KLOKTIJD TIMER (Lockscreen proof) ---
+function getActualElapsedSeconds() {
+  if (!isTimerRunning) return accumulatedSeconds;
+  const now = Date.now();
+  const diffSec = Math.floor((now - timerStartTime) / 1000);
+  return accumulatedSeconds + diffSec;
 }
 
-// --- DOM Elements ---
-const navItems = document.querySelectorAll(".nav-item");
-const tabSections = document.querySelectorAll(".tab-section");
-const floatingParkBtn = document.getElementById("floating-park-btn");
-const taskInput = document.getElementById("task-input");
-const breakdownBtn = document.getElementById("breakdown-btn");
-const addToTodayBtn = document.getElementById("add-to-today-btn");
-const todayList = document.getElementById("today-list");
-const todayCountBadge = document.getElementById("today-count-badge");
-const microBox = document.getElementById("micro-box");
-const microText = document.getElementById("micro-text");
-const microParentPreview = document.getElementById("micro-parent-preview");
-const refreshMicroBtn = document.getElementById("refresh-micro-btn");
-const startFocusBtn = document.getElementById("start-focus-btn");
-const timerDisplay = document.getElementById("timer-display");
-const timerToggleBtn = document.getElementById("timer-toggle-btn");
-const activeGoalLabel = document.getElementById("active-goal-label");
-const activeTaskLabel = document.getElementById("active-task-label");
-const doneBtn = document.getElementById("done-btn");
-const pauseBtn = document.getElementById("pause-btn");
-const cancelBtn = document.getElementById("cancel-btn");
-const parkModal = document.getElementById("park-modal");
-const parkInput = document.getElementById("park-input");
-const saveParkBtn = document.getElementById("save-park-btn");
-const closeParkBtn = document.getElementById("close-park-btn");
-const thoughtList = document.getElementById("thought-list");
-const quickThoughtList = document.getElementById("quick-thought-list");
-const completedLogsList = document.getElementById("completed-logs-list");
-const clearAllLogsBtn = document.getElementById("clear-all-logs-btn");
-const exportCsvBtn = document.getElementById("export-csv-btn");
-const syncInfo = document.getElementById("sync-info");
-const settingsBtn = document.getElementById("settings-btn");
-const settingsModal = document.getElementById("settings-modal");
-const sheetUrlInput = document.getElementById("sheet-url-input");
-const saveSettingsBtn = document.getElementById("save-settings-btn");
-const closeSettingsBtn = document.getElementById("close-settings-btn");
-const testSyncBtn = document.getElementById("test-sync-btn");
-const vatFluid = document.getElementById("vat-fluid");
-const kgdCounterText = document.getElementById("kgd-counter-text");
-const resetVatBtn = document.getElementById("reset-vat-btn");
-
-// --- Tab Navigatie ---
-function switchTab(tabId) {
-  tabSections.forEach(sec => sec.classList.remove("active"));
-  navItems.forEach(btn => btn.classList.remove("active"));
-
-  const targetSec = document.getElementById(tabId);
-  const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
-  if (targetSec) targetSec.classList.add("active");
-  if (targetBtn) targetBtn.classList.add("active");
+function updateTimerDisplay() {
+  const sec = getActualElapsedSeconds();
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = (sec % 60).toString().padStart(2, '0');
+  timerDisplay.innerText = `${m}:${s}`;
 }
-navItems.forEach(btn => {
-  btn.onclick = () => switchTab(btn.dataset.tab);
+
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerStartTime = Date.now();
+  isTimerRunning = true;
+  timerToggleBtn.innerText = "⏸ Pauzeer Timer";
+  timerToggleBtn.className = "btn btn-secondary";
+  requestWakeLock();
+  timerInterval = setInterval(updateTimerDisplay, 500);
+}
+
+function pauseTimer() {
+  if (isTimerRunning) {
+    accumulatedSeconds = getActualElapsedSeconds();
+    isTimerRunning = false;
+  }
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  timerToggleBtn.innerText = "▶ Hervat Timer";
+  timerToggleBtn.className = "btn btn-primary";
+  releaseWakeLock();
+  updateTimerDisplay();
+}
+
+timerToggleBtn.onclick = () => {
+  if (isTimerRunning) { pauseTimer(); } else { startTimer(); }
+};
+
+// Direct bijwerken zodra scherm ontgrendelt
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    updateTimerDisplay();
+  }
 });
 
 // --- Wake Lock ---
@@ -477,22 +507,19 @@ function setupSpeech(btn, inputElem) {
 setupSpeech(document.getElementById("mic-main"), taskInput);
 setupSpeech(document.getElementById("mic-park"), parkInput);
 
-// --- To-Day (Max 3) Management ---
+// --- To-Day (Max 3 per Context) ---
+function getActiveTodayStorageKey() {
+  return currentContext === "Privé" ? STORAGE_TODAY_PRIVE : STORAGE_TODAY_WERK;
+}
+
 function renderTodayList() {
-  const list = getStorage(STORAGE_TODAY);
+  const key = getActiveTodayStorageKey();
+  const list = getStorage(key);
   todayList.innerHTML = "";
   todayCountBadge.innerText = `${list.length} / 3`;
 
-  if (list.length >= 3) {
-    todayCountBadge.style.background = "rgba(239, 68, 68, 0.2)";
-    todayCountBadge.style.color = "var(--danger)";
-  } else {
-    todayCountBadge.style.background = "rgba(245, 158, 11, 0.15)";
-    todayCountBadge.style.color = "var(--warning)";
-  }
-
   if (list.length === 0) {
-    todayList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.6rem;">Geen taken op To-Day. Voeg er maximaal 3 toe.</p>`;
+    todayList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.6rem;">Geen ${currentContext.toLowerCase()} taken op To-Day.</p>`;
     return;
   }
 
@@ -506,7 +533,7 @@ function renderTodayList() {
       <div class="list-actions">
         <button class="btn-action-icon btn-start" title="Start deze taak nu">▶ Start</button>
         <button class="btn-action-icon btn-check" title="Direct afvinken">✓</button>
-        <button class="btn-action-icon btn-del" title="Verwijderen van To-Day">✕</button>
+        <button class="btn-action-icon btn-del" title="Verwijderen">✕</button>
       </div>
     `;
     el.querySelector(".btn-start").onclick = () => {
@@ -522,6 +549,7 @@ function renderTodayList() {
       syncToGoogleSheet({
         type: "focus",
         date: new Date().toLocaleString('nl-NL'),
+        context: currentContext,
         task: item.text,
         duration: "Direct afgevinkt",
         seconds: 0,
@@ -536,22 +564,24 @@ function renderTodayList() {
 function addToToday(taskText) {
   const clean = taskText.trim();
   if (!clean) return;
-  const list = getStorage(STORAGE_TODAY);
+  const key = getActiveTodayStorageKey();
+  const list = getStorage(key);
   if (list.length >= 3) {
-    alert("Je To-Day lijst is vol (max 3)! Voltooi of verwijder er eerst eentje om je focus te bewaren.");
+    alert(`Je ${currentContext} To-Day lijst is vol (max 3)! Voltooi of verwijder er eerst eentje.`);
     return;
   }
   list.push({ id: Date.now(), text: clean });
-  setStorage(STORAGE_TODAY, list);
+  setStorage(key, list);
   taskInput.value = "";
   microBox.classList.remove("active");
   renderTodayList();
 }
 
 function removeTodayItem(id) {
-  let list = getStorage(STORAGE_TODAY);
+  const key = getActiveTodayStorageKey();
+  let list = getStorage(key);
   list = list.filter(item => item.id !== id);
-  setStorage(STORAGE_TODAY, list);
+  setStorage(key, list);
   renderTodayList();
 }
 
@@ -561,6 +591,45 @@ addToTodayBtn.onclick = () => {
 };
 
 // --- Ophakken Flow ---
+function generateMicroSteps(task) {
+  const clean = task.trim();
+  const lower = clean.toLowerCase();
+
+  if (/mail|bericht|app|bel|contact|vragen/i.test(lower)) {
+    return [
+      `Open je mail of app en zoek alleen de contactpersoon op voor '${clean}'.`,
+      `Typ alleen de allereerste begroeting en openingszin.`,
+      `Schrijf op een leeg blaadje in 3 woorden wat je wilt vragen.`
+    ];
+  }
+  if (/koop|haal|melk|supermarkt|winkel|boodschap/i.test(lower)) {
+    return [
+      `Schrijf '${clean}' direct bovenaan op een leeg briefje.`,
+      `Zet je schoenen en sleutels alvast klaar bij de deur.`,
+      `Controleer in de kast wat je precies nodig hebt.`
+    ];
+  }
+  if (/opruim|schoon|was|stofzuig|afwas|vaat/i.test(lower)) {
+    return [
+      `Pak exact 1 rondslingerend voorwerp op en zet het terug.`,
+      `Zet alleen de vaatwasser of wasmand wijd open.`,
+      `Gooi 1 stuk afval in de prullenbak.`
+    ];
+  }
+  if (/schrijf|verslag|document|rapport|typ|studeer|lees/i.test(lower)) {
+    return [
+      `Open een leeg document en typ alleen de titel '${clean}'.`,
+      `Lees alleen de allereerste alinea of tussenkop.`,
+      `Schrijf 3 losse steekwoorden op een vel papier.`
+    ];
+  }
+  return [
+    `Leg alleen de benodigdheden voor '${clean}' klaar op je bureau.`,
+    `Open het scherm of programma voor '${clean}' en kijk er 30 seconden rustig naar.`,
+    `Doe alleen de allereerste handeling van 60 seconden voor '${clean}'.`
+  ];
+}
+
 breakdownBtn.onclick = () => {
   const val = taskInput.value.trim();
   if (!val) return;
@@ -578,52 +647,19 @@ refreshMicroBtn.onclick = () => {
   microText.innerText = currentSuggestions[suggestionIndex];
 };
 
-function formatTime(sec) {
-  const m = Math.floor(sec / 60).toString().padStart(2, '0');
-  const s = (sec % 60).toString().padStart(2, '0');
-  return `${m}:${s}`;
-}
-
-// --- Start Session & Timer Control ---
-function startTimerInterval() {
-  if (timerInterval) clearInterval(timerInterval);
-  isTimerRunning = true;
-  timerToggleBtn.innerText = "⏸ Pauzeer Timer";
-  timerToggleBtn.className = "btn btn-secondary";
-  requestWakeLock();
-  timerInterval = setInterval(() => {
-    secondsElapsed++;
-    timerDisplay.innerText = formatTime(secondsElapsed);
-  }, 1000);
-}
-
-function pauseTimerInterval() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = null;
-  isTimerRunning = false;
-  timerToggleBtn.innerText = "▶ Hervat Timer";
-  timerToggleBtn.className = "btn btn-primary";
-  releaseWakeLock();
-}
-
-timerToggleBtn.onclick = () => {
-  if (isTimerRunning) {
-    pauseTimerInterval();
-  } else {
-    startTimerInterval();
-  }
-};
-
+// --- Start Session Handlers ---
 function startSessionWithTask(goal, micro) {
   originalTask = goal;
   activeMicroAction = micro;
   activeGoalLabel.innerText = originalTask || activeMicroAction;
   activeTaskLabel.innerText = activeMicroAction;
-  secondsElapsed = 0;
-  timerDisplay.innerText = "00:00";
+  activeContextBadge.innerText = currentContext;
+
+  accumulatedSeconds = 0;
+  updateTimerDisplay();
 
   switchTab("tab-anker");
-  startTimerInterval();
+  startTimer();
 }
 
 startFocusBtn.onclick = () => {
@@ -655,24 +691,31 @@ resetVatBtn.onclick = () => {
 
 // --- Einde Sessie ---
 function endSession(status, isKgdSuccess = false) {
-  pauseTimerInterval();
+  const totalSec = getActualElapsedSeconds();
+  pauseTimer();
 
   const nowStr = new Date().toLocaleString('nl-NL');
-  const durStr = formatTime(secondsElapsed);
+  const durStr = `${Math.floor(totalSec / 60)}:${(totalSec % 60).toString().padStart(2, '0')}`;
   const fullLogTitle = (originalTask && originalTask !== activeMicroAction) 
     ? `${originalTask} → ${activeMicroAction}` 
     : activeMicroAction;
 
-  // Lokaal opslaan in focus logs
   const logs = getStorage(STORAGE_LOGS);
-  logs.unshift({ id: Date.now(), date: nowStr, task: fullLogTitle, duration: durStr, seconds: secondsElapsed, status: status });
+  logs.unshift({
+    id: Date.now(),
+    date: nowStr,
+    context: currentContext,
+    task: fullLogTitle,
+    duration: durStr,
+    seconds: totalSec,
+    status: status
+  });
   setStorage(STORAGE_LOGS, logs);
 
   if (isKgdSuccess) {
     let count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0") + 1;
     localStorage.setItem(STORAGE_KGD_COUNT, count);
 
-    // Ruim gekoppelde gedachte of to-day item op
     if (currentLinkedThoughtId) {
       completeThought(currentLinkedThoughtId, false);
       currentLinkedThoughtId = null;
@@ -683,18 +726,19 @@ function endSession(status, isKgdSuccess = false) {
     }
   }
 
-  // Naar Google Sheet
   syncToGoogleSheet({
     type: "focus",
     date: nowStr,
+    context: currentContext,
     task: fullLogTitle,
     duration: durStr,
-    seconds: secondsElapsed,
+    seconds: totalSec,
     status: status
   });
 
   taskInput.value = "";
   originalTask = "";
+  accumulatedSeconds = 0;
   microBox.classList.remove("active");
   updateVatDisplay();
   renderThoughts();
@@ -707,37 +751,88 @@ doneBtn.onclick = () => endSession("Afgerond (KGD)", true);
 pauseBtn.onclick = () => {
   const thoughts = getStorage(STORAGE_THOUGHTS);
   const logName = (originalTask && originalTask !== activeMicroAction) ? `${originalTask} (${activeMicroAction})` : activeMicroAction;
-  thoughts.unshift({ id: Date.now(), text: logName + " [Nog afmaken]", status: "Open" });
+  thoughts.unshift({ id: Date.now(), context: currentContext, text: logName + " [Nog afmaken]", status: "Open" });
   setStorage(STORAGE_THOUGHTS, thoughts);
   endSession("Onderbroken / Open", false);
 };
 cancelBtn.onclick = () => {
   if (confirm("Zonder opslaan stoppen?")) {
-    pauseTimerInterval();
+    pauseTimer();
+    accumulatedSeconds = 0;
     switchTab("tab-taak");
   }
 };
 
-// --- Render Afgeronde Taken Logs ---
+// --- TAB 3: MIJN DAG (OPTIE A BEHEER) ---
+function renderDayPlan() {
+  const plan = getStorage(STORAGE_DAY_PLAN) || { ochtend: [], middag: [], avond: [] };
+  ['ochtend', 'middag', 'avond'].forEach(slot => {
+    const listEl = document.getElementById(`day-list-${slot}`);
+    listEl.innerHTML = "";
+    const items = plan[slot] || [];
+    if (items.length === 0) {
+      listEl.innerHTML = `<p style="font-size:0.75rem;color:var(--text-muted);padding:0.25rem 0;">Geen items gepland.</p>`;
+      return;
+    }
+    items.forEach((item, idx) => {
+      const row = document.createElement("div");
+      row.className = `day-item-row ${item.done ? 'done' : ''}`;
+      row.innerHTML = `
+        <input type="checkbox" ${item.done ? 'checked' : ''} style="cursor:pointer;">
+        <span style="flex:1;">${item.text}</span>
+        <button class="btn-action-icon btn-del" style="padding:0.2rem 0.4rem; font-size:0.7rem;">✕</button>
+      `;
+      row.querySelector("input").onchange = (e) => {
+        plan[slot][idx].done = e.target.checked;
+        setStorage(STORAGE_DAY_PLAN, plan);
+        renderDayPlan();
+      };
+      row.querySelector(".btn-del").onclick = () => {
+        plan[slot].splice(idx, 1);
+        setStorage(STORAGE_DAY_PLAN, plan);
+        renderDayPlan();
+      };
+      listEl.appendChild(row);
+    });
+  });
+}
+
+function promptAddDayItem(slot) {
+  const text = prompt(`Wat plan je voor de ${slot}?`);
+  if (!text || !text.trim()) return;
+  const plan = getStorage(STORAGE_DAY_PLAN) || { ochtend: [], middag: [], avond: [] };
+  if (!plan[slot]) plan[slot] = [];
+  plan[slot].push({ text: text.trim(), done: false });
+  setStorage(STORAGE_DAY_PLAN, plan);
+  renderDayPlan();
+}
+
+document.getElementById("reset-day-btn").onclick = () => {
+  if (confirm("Dagplanning leegmaken voor vandaag?")) {
+    setStorage(STORAGE_DAY_PLAN, { ochtend: [], middag: [], avond: [] });
+    renderDayPlan();
+  }
+};
+
+// --- Logs & Gedachten Render ---
 function renderLogs() {
   const logs = getStorage(STORAGE_LOGS);
   completedLogsList.innerHTML = "";
-
   if (logs.length === 0) {
-    completedLogsList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.6rem;">Nog geen taken afgerond vandaag.</p>`;
+    completedLogsList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Nog geen taken afgerond vandaag.</p>`;
     return;
   }
-
   logs.forEach((item, idx) => {
     const el = document.createElement("div");
     el.className = "list-item";
+    const tagClass = item.context === "Werk" ? "tag-werk" : "tag-prive";
     el.innerHTML = `
       <div style="flex:1;">
-        <div class="list-item-title">${item.task}</div>
+        <div class="list-item-title"><span class="tag-badge ${tagClass}">${item.context || 'Privé'}</span>${item.task}</div>
         <div class="list-item-sub">${item.duration} • ${item.date}</div>
       </div>
       <div class="list-actions">
-        <button class="btn-action-icon btn-del" title="Verwijder uit lokaal overzicht">✕</button>
+        <button class="btn-action-icon btn-del" title="Verwijderen">✕</button>
       </div>
     `;
     el.querySelector(".btn-del").onclick = () => {
@@ -750,15 +845,12 @@ function renderLogs() {
 }
 
 clearAllLogsBtn.onclick = () => {
-  const logs = getStorage(STORAGE_LOGS);
-  if (logs.length === 0) return;
-  if (confirm("Alleen lokaal overzicht wissen? (Blijft gewoon bewaard in je Google Sheet)")) {
+  if (confirm("Lokaal overzicht wissen? (Blijft bewaard in Google Sheet)")) {
     setStorage(STORAGE_LOGS, []);
     renderLogs();
   }
 };
 
-// --- Gedachten Beheer (Afvinken & Verwijderen) ---
 function completeThought(id, shouldSync = true) {
   let list = getStorage(STORAGE_THOUGHTS);
   const item = list.find(t => t.id === id);
@@ -770,6 +862,7 @@ function completeThought(id, shouldSync = true) {
     syncToGoogleSheet({
       type: "thought",
       date: new Date().toLocaleString('nl-NL'),
+      context: item.context || currentContext,
       text: item.text + " (Afgerond)",
       status: "Afgedaan"
     });
@@ -783,7 +876,61 @@ function deleteThought(id) {
   renderThoughts();
 }
 
-// --- Parkeerknop Flow (Dedicated Floating Button) ---
+function renderThoughts() {
+  const list = getStorage(STORAGE_THOUGHTS).filter(t => t.status === "Open");
+  thoughtList.innerHTML = "";
+  quickThoughtList.innerHTML = "";
+
+  if (list.length === 0) {
+    thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen openstaande gedachten! 🎉</p>`;
+    quickThoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen geparkeerde gedachten.</p>`;
+    return;
+  }
+
+  list.forEach(item => {
+    const tagClass = item.context === "Werk" ? "tag-werk" : "tag-prive";
+    
+    // In Tab 4
+    const el = document.createElement("div");
+    el.className = "list-item";
+    el.innerHTML = `
+      <div style="flex:1;">
+        <div class="list-item-title"><span class="tag-badge ${tagClass}">${item.context || 'Privé'}</span>${item.text}</div>
+      </div>
+      <div class="list-actions">
+        <button class="btn-action-icon btn-check" title="Afvinken">✓</button>
+        <button class="btn-action-icon btn-del" title="Verwijderen">✕</button>
+      </div>
+    `;
+    el.querySelector(".btn-check").onclick = () => completeThought(item.id, true);
+    el.querySelector(".btn-del").onclick = () => deleteThought(item.id);
+    thoughtList.appendChild(el);
+
+    // In Tab 1 (Quick list)
+    const quickEl = document.createElement("div");
+    quickEl.className = "list-item";
+    quickEl.innerHTML = `
+      <div style="flex:1;">
+        <div class="list-item-title"><span class="tag-badge ${tagClass}">${item.context || 'Privé'}</span>${item.text}</div>
+      </div>
+      <div class="list-actions">
+        <button class="btn-action-icon btn-today" style="color:var(--warning);" title="Naar To-Day">📌 To-Day</button>
+        <button class="btn-action-icon btn-start" title="Pak op">▶ Nu</button>
+      </div>
+    `;
+    quickEl.querySelector(".btn-today").onclick = () => {
+      addToToday(item.text);
+      deleteThought(item.id);
+    };
+    quickEl.querySelector(".btn-start").onclick = () => {
+      currentLinkedThoughtId = item.id;
+      startSessionWithTask(item.text, item.text);
+    };
+    quickThoughtList.appendChild(quickEl);
+  });
+}
+
+// --- Dedicated Floating Parkeerknop ---
 floatingParkBtn.onclick = () => { parkModal.style.display = "flex"; parkInput.focus(); };
 closeParkBtn.onclick = () => { parkModal.style.display = "none"; parkInput.value = ""; };
 saveParkBtn.onclick = () => {
@@ -791,12 +938,13 @@ saveParkBtn.onclick = () => {
   if (val) {
     const nowStr = new Date().toLocaleString('nl-NL');
     const list = getStorage(STORAGE_THOUGHTS);
-    list.unshift({ id: Date.now(), text: val, status: "Open" });
+    list.unshift({ id: Date.now(), context: currentContext, text: val, status: "Open" });
     setStorage(STORAGE_THOUGHTS, list);
 
     syncToGoogleSheet({
       type: "thought",
       date: nowStr,
+      context: currentContext,
       text: val,
       status: "Open"
     });
@@ -828,7 +976,7 @@ testSyncBtn.onclick = async () => {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify({ type: "thought", date: new Date().toLocaleString('nl-NL'), text: "Verbindingstest geslaagd! 🎉", status: "Getest" })
+      body: JSON.stringify({ type: "thought", date: new Date().toLocaleString('nl-NL'), context: currentContext, text: "Verbindingstest geslaagd! 🎉", status: "Getest" })
     });
     alert("Test verzonden! Controleer je Google Sheet.");
   } catch (err) {
@@ -849,65 +997,27 @@ function updateSyncStatus() {
   }
 }
 
-// --- Render Thoughts Lists ---
-function renderThoughts() {
-  const list = getStorage(STORAGE_THOUGHTS).filter(t => t.status === "Open");
-  thoughtList.innerHTML = "";
-  quickThoughtList.innerHTML = "";
+// --- Bottom Tab Navigation ---
+function switchTab(tabId) {
+  document.querySelectorAll(".tab-section").forEach(sec => sec.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
 
-  if (list.length === 0) {
-    thoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen openstaande gedachten! 🎉</p>`;
-    quickThoughtList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.5rem;">Geen geparkeerde gedachten.</p>`;
-    return;
-  }
-
-  list.forEach(item => {
-    // In Tab 3
-    const el = document.createElement("div");
-    el.className = "list-item";
-    el.innerHTML = `
-      <div style="flex:1;">
-        <div class="list-item-title">${item.text}</div>
-      </div>
-      <div class="list-actions">
-        <button class="btn-action-icon btn-check" title="Klaar / Afvinken">✓</button>
-        <button class="btn-action-icon btn-del" title="Verwijderen">✕</button>
-      </div>
-    `;
-    el.querySelector(".btn-check").onclick = () => completeThought(item.id, true);
-    el.querySelector(".btn-del").onclick = () => deleteThought(item.id);
-    thoughtList.appendChild(el);
-
-    // In Tab 1 (Quick list met Naar To-Day & Pak op)
-    const quickEl = document.createElement("div");
-    quickEl.className = "list-item";
-    quickEl.innerHTML = `
-      <div style="flex:1;">
-        <div class="list-item-title">${item.text}</div>
-      </div>
-      <div class="list-actions">
-        <button class="btn-action-icon btn-today" style="color:var(--warning);" title="Zet op To-Day lijst">📌 To-Day</button>
-        <button class="btn-action-icon btn-start" title="Pak direct op">▶ Nu</button>
-      </div>
-    `;
-    quickEl.querySelector(".btn-today").onclick = () => {
-      addToToday(item.text);
-      deleteThought(item.id);
-    };
-    quickEl.querySelector(".btn-start").onclick = () => {
-      currentLinkedThoughtId = item.id;
-      startSessionWithTask(item.text, item.text);
-    };
-    quickThoughtList.appendChild(quickEl);
-  });
+  const targetSec = document.getElementById(tabId);
+  const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
+  if (targetSec) targetSec.classList.add("active");
+  if (targetBtn) targetBtn.classList.add("active");
 }
+document.querySelectorAll(".nav-item").forEach(btn => {
+  btn.onclick = () => switchTab(btn.dataset.tab);
+});
 
+// --- CSV Export ---
 exportCsvBtn.onclick = () => {
   const logs = getStorage(STORAGE_LOGS);
   const thoughts = getStorage(STORAGE_THOUGHTS);
-  let csv = "TYPE;DATUM;TAAK / GEDACHTE;DUUR;STATUS\n";
-  logs.forEach(l => { csv += `FOCUS;${l.date};"${l.task}";${l.duration};${l.status}\n`; });
-  thoughts.forEach(t => { csv += `GEDACHTE;${new Date(t.id).toLocaleString('nl-NL')};"${t.text}";-;${t.status}\n`; });
+  let csv = "TYPE;DATUM;CONTEXT;TAAK / GEDACHTE;DUUR;STATUS\n";
+  logs.forEach(l => { csv += `FOCUS;${l.date};${l.context || 'Privé'};"${l.task}";${l.duration};${l.status}\n`; });
+  thoughts.forEach(t => { csv += `GEDACHTE;${new Date(t.id).toLocaleString('nl-NL')};${t.context || 'Privé'};"${t.text}";-;${t.status}\n`; });
 
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
@@ -919,6 +1029,7 @@ exportCsvBtn.onclick = () => {
 
 // Initialisaties
 renderTodayList();
+renderDayPlan();
 updateVatDisplay();
 renderThoughts();
 renderLogs();
