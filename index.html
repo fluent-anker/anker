@@ -21,23 +21,35 @@
       --warning: #f59e0b;
       --danger: #ef4444;
       --work: #a855f7;
+      --streak: #ffedd5;
+      --streak-accent: #f97316;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 78px; }
-    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 1.15rem; flex: 1; display: flex; flex-direction: column; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 78px; user-select: none; }
+    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 1rem 1.15rem; flex: 1; display: flex; flex-direction: column; }
     
-    /* Header & Context Switcher */
-    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.85rem; border-bottom: 1px solid var(--card-border); margin-bottom: 1rem; }
-    h1 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
+    /* Header & Top Bar */
+    header { display: flex; flex-direction: column; gap: 0.65rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--card-border); margin-bottom: 0.85rem; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; }
+    h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
     h1 span { color: var(--accent); }
-    
+
+    /* Prominent Streak Badge */
+    .streak-banner { display: inline-flex; align-items: center; gap: 0.45rem; background: linear-gradient(135deg, rgba(249, 115, 22, 0.22) 0%, rgba(234, 88, 12, 0.08) 100%); border: 1px solid rgba(249, 115, 22, 0.45); padding: 0.35rem 0.85rem; border-radius: 999px; box-shadow: 0 0 14px rgba(249, 115, 22, 0.25); cursor: pointer; transition: transform 0.15s ease; }
+    .streak-banner:active { transform: scale(0.96); }
+    .streak-fire { font-size: 1.15rem; animation: flicker 1.8s infinite alternate; }
+    @keyframes flicker { 0% { transform: scale(0.95); opacity: 0.9; } 100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 6px #f97316); } }
+    .streak-text { font-size: 0.85rem; font-weight: 800; color: #ffedd5; letter-spacing: 0.02em; }
+    .streak-text span { color: #fdba74; }
+
+    /* Context Switcher */
     .context-switch { display: flex; background: #060911; border: 1.5px solid var(--card-border); border-radius: 999px; padding: 2px; }
     .context-btn { background: none; border: none; color: var(--text-muted); padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 700; border-radius: 999px; cursor: pointer; transition: all 0.2s ease; }
     .context-btn.active.prive { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
     .context-btn.active.werk { background: rgba(168, 85, 247, 0.2); color: var(--work); }
 
     /* Cards & Inputs */
-    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.15rem; padding: 1.15rem; margin-bottom: 1rem; }
+    .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 1.15rem; padding: 1.15rem; margin-bottom: 0.85rem; position: relative; }
     .input-wrapper { position: relative; margin-bottom: 0.75rem; }
     textarea, input[type="text"] { width: 100%; background: #060911; border: 1.5px solid var(--card-border); border-radius: 0.85rem; color: var(--text); padding: 0.85rem 3rem 0.85rem 0.85rem; font-size: 0.95rem; resize: none; outline: none; }
     textarea:focus, input[type="text"]:focus { border-color: var(--accent); }
@@ -53,6 +65,16 @@
     .btn-warning { background: var(--warning); color: #261601; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn:active { transform: scale(0.98); }
+
+    /* Closing Loop Ring (Dopamine Visual) */
+    .loop-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem; }
+    .loop-container { display: flex; align-items: center; gap: 0.85rem; }
+    .loop-svg-wrapper { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
+    .loop-svg { transform: rotate(-90deg); }
+    .loop-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 5; }
+    .loop-bar { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease; }
+    .loop-bar.gold { stroke: #fbbf24; filter: drop-shadow(0 0 6px #f59e0b); }
+    .loop-number { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; color: #fff; }
 
     /* Ophak Box */
     .micro-box { background: rgba(56, 189, 248, 0.08); border: 1px dashed var(--accent); border-radius: 1rem; padding: 0.85rem; margin-top: 0.75rem; display: none; }
@@ -82,12 +104,22 @@
     .wake-lock-status { font-size: 0.75rem; color: var(--success); display: inline-flex; align-items: center; gap: 0.35rem; }
     .dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
 
-    /* Dagplanner Blokken (Tab 3) */
-    .day-block { background: #060911; border: 1px solid var(--card-border); border-radius: 0.85rem; padding: 0.85rem; margin-bottom: 0.75rem; }
-    .day-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    /* Mijn Dag (Tab 3) - Blocks & Drag Tray */
+    .day-block { background: #060911; border: 1.5px dashed var(--card-border); border-radius: 0.95rem; padding: 0.85rem; margin-bottom: 0.75rem; min-height: 75px; transition: border-color 0.2s, background-color 0.2s; }
+    .day-block.drag-over { border-color: var(--accent); background: rgba(56, 189, 248, 0.06); }
+    .day-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
     .day-block-title { font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 0.35rem; }
-    .day-item-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+    .day-item-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.65rem; background: var(--card); border: 1px solid var(--card-border); border-radius: 0.65rem; margin-bottom: 0.35rem; font-size: 0.85rem; }
     .day-item-row.done span { text-decoration: line-through; color: var(--text-muted); }
+
+    /* Backlog Tray at bottom of Mijn Dag */
+    .backlog-tray { background: rgba(19, 28, 46, 0.7); border: 1px solid var(--card-border); border-radius: 1rem; padding: 0.85rem; margin-top: 0.5rem; }
+    .tray-title { font-size: 0.85rem; font-weight: 700; color: #cbd5e1; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: space-between; }
+    .tray-item { background: #060911; border: 1px solid var(--card-border); border-radius: 0.65rem; padding: 0.5rem 0.65rem; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; cursor: grab; }
+    .tray-item:active { cursor: grabbing; }
+    .slot-push-btns { display: flex; gap: 0.25rem; }
+    .slot-push-btn { background: #1e293b; border: none; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.45rem; border-radius: 0.4rem; cursor: pointer; }
+    .slot-push-btn:active { transform: scale(0.92); }
 
     /* Vat van Zelfwaardering Visual */
     .vat-container { border: 3px solid #38bdf8; border-top: none; border-radius: 0 0 2rem 2rem; height: 140px; width: 170px; margin: 0.4rem auto 0.85rem; position: relative; overflow: hidden; background: rgba(15, 23, 42, 0.6); display: flex; flex-direction: column; justify-content: flex-end; }
@@ -108,34 +140,70 @@
     .btn-action-icon { background: #1e293b; border: none; color: var(--text); border-radius: 0.45rem; padding: 0.35rem 0.55rem; font-size: 0.75rem; cursor: pointer; }
     .btn-check { background: rgba(16, 185, 129, 0.2); color: var(--success); }
     .btn-del { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+    .btn-return { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
     .btn-start { background: rgba(56, 189, 248, 0.2); color: var(--accent); font-weight: 700; }
     .tag-badge { font-size: 0.65rem; padding: 0.15rem 0.4rem; border-radius: 999px; font-weight: 700; margin-right: 0.35rem; }
     .tag-prive { background: rgba(56, 189, 248, 0.15); color: var(--accent); }
     .tag-werk { background: rgba(168, 85, 247, 0.15); color: var(--work); }
+
+    /* Dopamine Celebration Overlay */
+    .celebration-toast { position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%) translateY(-100px); background: #0f172a; border: 2px solid var(--success); color: #fff; padding: 0.85rem 1.35rem; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(16, 185, 129, 0.4); z-index: 300; display: flex; align-items: center; gap: 0.75rem; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; max-width: 90%; }
+    .celebration-toast.show { transform: translateX(-50%) translateY(0); }
+    .celebration-icon { font-size: 2rem; }
+    .celebration-text-title { font-weight: 800; font-size: 0.95rem; color: #34d399; }
+    .celebration-text-sub { font-size: 0.8rem; color: #cbd5e1; }
   </style>
 </head>
 <body>
 
+<!-- Celebration Toast -->
+<div id="celebration-toast" class="celebration-toast">
+  <div class="celebration-icon" id="celebration-icon">🎁</div>
+  <div>
+    <div class="celebration-text-title" id="celebration-title">Mentale Loop Gesloten!</div>
+    <div class="celebration-text-sub" id="celebration-sub">+1 KGD vloeistof veiliggesteld</div>
+  </div>
+</div>
+
 <div class="container">
-  <!-- TAB 1: TAAK & TO-DAY -->
-  <section id="tab-taak" class="tab-section active">
-    <header>
+  <!-- HEADER MET PROMINENTE STREAK & CONTEXT -->
+  <header>
+    <div class="header-top">
       <h1>Anker<span>.</span></h1>
+      <div class="streak-banner" id="streak-banner" title="Je aaneengesloten focusdagen">
+        <span class="streak-fire">🔥</span>
+        <span class="streak-text"><span id="streak-count-display">0</span> DAGEN FOCUS</span>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
       <div class="context-switch">
         <button id="ctx-prive-btn" class="context-btn active prive">🏠 Privé</button>
         <button id="ctx-werk-btn" class="context-btn werk">💼 Werk</button>
       </div>
-    </header>
-
-    <!-- To-Day Lijst (Max 3) -->
-    <div class="card" style="border: 1px solid rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.02);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-        <h2 style="font-size: 0.95rem; font-weight: 800; color: #fcd34d;" id="today-header-title">🎯 To-Day (Privé)</h2>
-        <span class="badge" id="today-count-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);">0 / 3</span>
+      <div id="header-context-label" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">
+        Focusmodus: Privé
       </div>
-      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.6rem;">
-        Maximaal 3 focusdoelen voor vandaag.
-      </p>
+    </div>
+  </header>
+
+  <!-- TAB 1: TAAK & TO-DAY MET CLOSING THE LOOP -->
+  <section id="tab-taak" class="tab-section active">
+    <div class="card" style="border: 1px solid rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.02);">
+      <div class="loop-card-header">
+        <div>
+          <h2 style="font-size: 0.95rem; font-weight: 800; color: #fcd34d;" id="today-header-title">🎯 To-Day (Privé)</h2>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">Max 3 prioriteiten • Sluit de loop!</p>
+        </div>
+        <div class="loop-container">
+          <div class="loop-svg-wrapper">
+            <svg class="loop-svg" width="56" height="56" viewBox="0 0 56 56">
+              <circle class="loop-bg" cx="28" cy="28" r="22" />
+              <circle class="loop-bar" id="today-loop-bar" cx="28" cy="28" r="22" stroke-dasharray="138.2" stroke-dashoffset="138.2" />
+            </svg>
+            <div class="loop-number" id="today-count-badge">0/3</div>
+          </div>
+        </div>
+      </div>
       <div id="today-list"></div>
     </div>
 
@@ -216,34 +284,43 @@
     </header>
 
     <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">
-      Verdeel je dag in 3 energieblokken zonder tijdsstress.
+      Verdeel je dag over 3 blokken. Sleep items of tik op de knopjes.
     </p>
 
     <!-- Ochtend Blok -->
-    <div class="day-block">
+    <div class="day-block" id="block-ochtend" data-slot="ochtend">
       <div class="day-block-header">
-        <div class="day-block-title" style="color: #38bdf8;">🌅 Ochtend (Focus)</div>
-        <button class="btn-action-icon" id="add-day-ochtend-btn">+ Toevoegen</button>
+        <div class="day-block-title" style="color: #38bdf8;">🌅 Ochtend (Focus & Kikkers)</div>
+        <span style="font-size:0.7rem; color:var(--text-muted);">Sleep hierheen</span>
       </div>
       <div id="day-list-ochtend"></div>
     </div>
 
     <!-- Middag Blok -->
-    <div class="day-block">
+    <div class="day-block" id="block-middag" data-slot="middag">
       <div class="day-block-header">
         <div class="day-block-title" style="color: #f59e0b;">☀️ Middag (Productie)</div>
-        <button class="btn-action-icon" id="add-day-middag-btn">+ Toevoegen</button>
+        <span style="font-size:0.7rem; color:var(--text-muted);">Sleep hierheen</span>
       </div>
       <div id="day-list-middag"></div>
     </div>
 
     <!-- Avond Blok -->
-    <div class="day-block">
+    <div class="day-block" id="block-avond" data-slot="avond">
       <div class="day-block-header">
         <div class="day-block-title" style="color: #a855f7;">🌙 Avond & Afronden (Laadpaal)</div>
-        <button class="btn-action-icon" id="add-day-avond-btn">+ Toevoegen</button>
+        <span style="font-size:0.7rem; color:var(--text-muted);">Sleep hierheen</span>
       </div>
       <div id="day-list-avond"></div>
+    </div>
+
+    <!-- BACKLOG & GEDACHTEN TRAY -->
+    <div class="backlog-tray">
+      <div class="tray-title">
+        <span>📥 Uit je Backlog & Gedachten</span>
+        <span style="font-size:0.7rem; font-weight:normal; color:var(--text-muted);">Tik op 🌅 ☀️ 🌙 of sleep</span>
+      </div>
+      <div id="day-backlog-list"></div>
     </div>
   </section>
 
@@ -254,7 +331,6 @@
       <button id="settings-btn" style="background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer;">⚙️</button>
     </header>
 
-    <!-- Vat van Zelfwaardering -->
     <div class="card" style="text-align: center;">
       <div class="kgd-counter-badge" id="kgd-counter-text">🎁 0 KGD'tjes vandaag</div>
       <button id="reset-vat-btn" class="btn btn-secondary" style="width: auto; padding: 0.25rem 0.75rem; font-size: 0.75rem; margin: 0 auto 0.65rem;">
@@ -269,7 +345,6 @@
       </p>
     </div>
 
-    <!-- Afgeronde Taken Sectie -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <h2 style="font-size: 0.9rem; font-weight: 700;">✅ Afgeronde Taken (Vandaag)</h2>
@@ -280,7 +355,6 @@
       <div id="completed-logs-list"></div>
     </div>
 
-    <!-- Alle Gedachten & CSV -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <h2 style="font-size: 0.9rem; font-weight: 700;">Geparkeerde Gedachten</h2>
@@ -358,7 +432,7 @@
 </div>
 
 <script>
-// --- State & Storage ---
+// --- State & Storage Keys ---
 let currentContext = "Privé";
 let originalTask = "";
 let activeMicroAction = "";
@@ -381,15 +455,20 @@ const STORAGE_TODAY_WERK = "anker_today_werk";
 const STORAGE_DAY_PLAN = "anker_day_plan_" + new Date().toISOString().slice(0, 10);
 const STORAGE_SHEET_URL = "anker_sheet_url";
 const STORAGE_KGD_COUNT = "anker_kgd_count_" + new Date().toISOString().slice(0, 10);
+const STORAGE_STREAK_INFO = "anker_streak_info";
 
 function getStorage(key) { return JSON.parse(localStorage.getItem(key) || "[]"); }
 function setStorage(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
 // --- DOM ELEMENTEN ---
+const streakBanner = document.getElementById("streak-banner");
+const streakCountDisplay = document.getElementById("streak-count-display");
 const ctxPriveBtn = document.getElementById("ctx-prive-btn");
 const ctxWerkBtn = document.getElementById("ctx-werk-btn");
+const headerContextLabel = document.getElementById("header-context-label");
 const todayHeaderTitle = document.getElementById("today-header-title");
 const todayCountBadge = document.getElementById("today-count-badge");
+const todayLoopBar = document.getElementById("today-loop-bar");
 const todayList = document.getElementById("today-list");
 
 const taskInput = document.getElementById("task-input");
@@ -413,9 +492,7 @@ const pauseBtn = document.getElementById("pause-btn");
 const cancelBtn = document.getElementById("cancel-btn");
 
 const resetDayBtn = document.getElementById("reset-day-btn");
-const addDayOchtendBtn = document.getElementById("add-day-ochtend-btn");
-const addDayMiddagBtn = document.getElementById("add-day-middag-btn");
-const addDayAvondBtn = document.getElementById("add-day-avond-btn");
+const dayBacklogList = document.getElementById("day-backlog-list");
 
 const settingsBtn = document.getElementById("settings-btn");
 const resetVatBtn = document.getElementById("reset-vat-btn");
@@ -440,6 +517,11 @@ const testSyncBtn = document.getElementById("test-sync-btn");
 const saveSettingsBtn = document.getElementById("save-settings-btn");
 const closeSettingsBtn = document.getElementById("close-settings-btn");
 
+const celebrationToast = document.getElementById("celebration-toast");
+const celebrationIcon = document.getElementById("celebration-icon");
+const celebrationTitle = document.getElementById("celebration-title");
+const celebrationSub = document.getElementById("celebration-sub");
+
 // --- TAB NAVIGATIE ---
 function switchTab(tabId) {
   document.querySelectorAll(".tab-section").forEach(sec => sec.classList.remove("active"));
@@ -455,6 +537,73 @@ document.querySelectorAll(".nav-item").forEach(btn => {
   btn.addEventListener("click", () => switchTab(btn.dataset.tab));
 });
 
+// --- STREAK TRACKING ---
+function updateStreakDisplay() {
+  const info = JSON.parse(localStorage.getItem(STORAGE_STREAK_INFO) || '{"count":1,"lastActiveDate":""}');
+  streakCountDisplay.innerText = info.count;
+}
+
+function registerStreakActivity() {
+  const todayStr = new Date().toISOString().slice(0, 10);
+  let info = JSON.parse(localStorage.getItem(STORAGE_STREAK_INFO) || '{"count":0,"lastActiveDate":""}');
+
+  if (!info.lastActiveDate) {
+    info = { count: 1, lastActiveDate: todayStr };
+  } else if (info.lastActiveDate === todayStr) {
+    return;
+  } else {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().slice(0, 10);
+
+    if (info.lastActiveDate === yesterdayStr) {
+      info.count += 1;
+    } else {
+      info.count = 1;
+    }
+    info.lastActiveDate = todayStr;
+  }
+  localStorage.setItem(STORAGE_STREAK_INFO, JSON.stringify(info));
+  updateStreakDisplay();
+}
+
+streakBanner.onclick = () => {
+  const info = JSON.parse(localStorage.getItem(STORAGE_STREAK_INFO) || '{"count":1,"lastActiveDate":""}');
+  alert(`🔥 Focus Streak: ${info.count} achtereenvolgende dag(en) actief gewerkt!\nElke dag dat je een KGD afrondt, bouwt je streak verder op.`);
+};
+
+// --- DOPAMINE REWARD & CLOSING THE LOOP ---
+const celebrations = [
+  { icon: "🎁", title: "Cadeautje voor je Vat!", sub: "+1 KGD vloeistof veiliggesteld." },
+  { icon: "⚡", title: "Loop Gesloten!", sub: "Weer een openstaand tabblad uit je hoofd." },
+  { icon: "🌊", title: "Dopamine Boost!", sub: "Kleine actie, groot effect op je rust." },
+  { icon: "✨", title: "Schoon Afgerond!", sub: "Geen schuldgevoel, pure executieve winst." }
+];
+
+function triggerDopamineCelebration(isJackpot = false) {
+  if ('vibrate' in navigator) {
+    if (isJackpot) {
+      navigator.vibrate([60, 40, 80, 50, 150]);
+    } else {
+      navigator.vibrate([40, 50, 60]);
+    }
+  }
+
+  let item = celebrations[Math.floor(Math.random() * celebrations.length)];
+  if (isJackpot) {
+    item = { icon: "🏆", title: "JACKPOT! 3/3 Bereikt!", sub: "Al je To-Day prioriteiten zijn afgerond! 🔥" };
+  }
+
+  celebrationIcon.innerText = item.icon;
+  celebrationTitle.innerText = item.title;
+  celebrationSub.innerText = item.sub;
+
+  celebrationToast.classList.add("show");
+  setTimeout(() => {
+    celebrationToast.classList.remove("show");
+  }, 2800);
+}
+
 // --- Context Switcher ---
 ctxPriveBtn.onclick = () => setContext("Privé");
 ctxWerkBtn.onclick = () => setContext("Werk");
@@ -466,15 +615,18 @@ function setContext(ctx) {
     ctxWerkBtn.className = "context-btn werk";
     todayHeaderTitle.innerText = "🎯 To-Day (Privé)";
     todayHeaderTitle.style.color = "#38bdf8";
+    headerContextLabel.innerText = "Focusmodus: Privé";
   } else {
     ctxPriveBtn.className = "context-btn prive";
     ctxWerkBtn.className = "context-btn active werk";
     todayHeaderTitle.innerText = "🎯 To-Day (Werk)";
     todayHeaderTitle.style.color = "#c084fc";
+    headerContextLabel.innerText = "Focusmodus: Werk";
   }
   activeContextBadge.innerText = ctx;
   renderTodayList();
   renderThoughts();
+  renderDayBacklogTray();
 }
 
 // --- Cloud Sync to Google Sheets ---
@@ -570,16 +722,31 @@ function setupSpeech(btn, inputElem) {
 setupSpeech(micMain, taskInput);
 setupSpeech(micPark, parkInput);
 
-// --- To-Day (Max 3 per Context) ---
+// --- To-Day (Max 3 per Context) + Closing Loop Ring ---
 function getActiveTodayStorageKey() {
   return currentContext === "Privé" ? STORAGE_TODAY_PRIVE : STORAGE_TODAY_WERK;
+}
+
+function updateLoopRing(count) {
+  const totalLength = 138.2;
+  todayCountBadge.innerText = `${count}/3`;
+
+  const fraction = Math.min(count / 3, 1);
+  const offset = totalLength - (fraction * totalLength);
+  todayLoopBar.style.strokeDashoffset = offset;
+
+  if (count >= 3) {
+    todayLoopBar.classList.add("gold");
+  } else {
+    todayLoopBar.classList.remove("gold");
+  }
 }
 
 function renderTodayList() {
   const key = getActiveTodayStorageKey();
   const list = getStorage(key);
   todayList.innerHTML = "";
-  todayCountBadge.innerText = `${list.length} / 3`;
+  updateLoopRing(list.length);
 
   if (list.length === 0) {
     todayList.innerHTML = `<p style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:0.6rem;">Geen ${currentContext.toLowerCase()} taken op To-Day.</p>`;
@@ -596,7 +763,7 @@ function renderTodayList() {
       <div class="list-actions">
         <button class="btn-action-icon btn-start" title="Start deze taak nu">▶ Start</button>
         <button class="btn-action-icon btn-check" title="Direct afvinken">✓</button>
-        <button class="btn-action-icon btn-del" title="Verwijderen">✕</button>
+        <button class="btn-action-icon btn-return" title="Terugzetten naar Geparkeerde Gedachten (niet wissen)">✕</button>
       </div>
     `;
     el.querySelector(".btn-start").onclick = () => {
@@ -606,9 +773,11 @@ function renderTodayList() {
     };
     el.querySelector(".btn-check").onclick = () => {
       removeTodayItem(item.id);
+      registerStreakActivity();
       let count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0") + 1;
       localStorage.setItem(STORAGE_KGD_COUNT, count);
       updateVatDisplay();
+      triggerDopamineCelebration(list.length === 1);
       syncToGoogleSheet({
         type: "focus",
         date: new Date().toLocaleString('nl-NL'),
@@ -619,9 +788,21 @@ function renderTodayList() {
         status: "Afgerond (KGD)"
       });
     };
-    el.querySelector(".btn-del").onclick = () => removeTodayItem(item.id);
+    el.querySelector(".btn-return").onclick = () => {
+      returnTodayItemToThoughts(item);
+    };
     todayList.appendChild(el);
   });
+}
+
+function returnTodayItemToThoughts(item) {
+  removeTodayItem(item.id);
+  const thoughts = getStorage(STORAGE_THOUGHTS);
+  thoughts.unshift({ id: Date.now(), context: currentContext, text: item.text, status: "Open" });
+  setStorage(STORAGE_THOUGHTS, thoughts);
+  renderThoughts();
+  renderDayBacklogTray();
+  alert(`"${item.text}" is teruggezet naar je geparkeerde gedachten.`);
 }
 
 function addToToday(taskText) {
@@ -630,7 +811,7 @@ function addToToday(taskText) {
   const key = getActiveTodayStorageKey();
   const list = getStorage(key);
   if (list.length >= 3) {
-    alert(`Je ${currentContext} To-Day lijst is vol (max 3)! Voltooi of verwijder er eerst eentje.`);
+    alert(`Je ${currentContext} To-Day lijst is vol (max 3)! Sluit eerst een taak af of zet er eentje terug met ✕.`);
     return;
   }
   list.push({ id: Date.now(), text: clean });
@@ -776,6 +957,7 @@ function endSession(status, isKgdSuccess = false) {
   setStorage(STORAGE_LOGS, logs);
 
   if (isKgdSuccess) {
+    registerStreakActivity();
     let count = parseInt(localStorage.getItem(STORAGE_KGD_COUNT) || "0") + 1;
     localStorage.setItem(STORAGE_KGD_COUNT, count);
 
@@ -787,6 +969,8 @@ function endSession(status, isKgdSuccess = false) {
       removeTodayItem(currentLinkedTodayId);
       currentLinkedTodayId = null;
     }
+
+    triggerDopamineCelebration(false);
   }
 
   syncToGoogleSheet({
@@ -806,6 +990,7 @@ function endSession(status, isKgdSuccess = false) {
   updateVatDisplay();
   renderThoughts();
   renderTodayList();
+  renderDayBacklogTray();
   renderLogs();
   switchTab("tab-vat");
 }
@@ -826,7 +1011,7 @@ cancelBtn.onclick = () => {
   }
 };
 
-// --- TAB 3: MIJN DAG (OPTIE A BEHEER) ---
+// --- TAB 3: MIJN DAG (GEEN TYPEWERK & BACKLOG TRAY SCHUIVEN) ---
 function renderDayPlan() {
   const plan = getStorage(STORAGE_DAY_PLAN) || { ochtend: [], middag: [], avond: [] };
   ['ochtend', 'middag', 'avond'].forEach(slot => {
@@ -835,7 +1020,7 @@ function renderDayPlan() {
     listEl.innerHTML = "";
     const items = plan[slot] || [];
     if (items.length === 0) {
-      listEl.innerHTML = `<p style="font-size:0.75rem;color:var(--text-muted);padding:0.25rem 0;">Geen items gepland.</p>`;
+      listEl.innerHTML = `<p style="font-size:0.75rem;color:var(--text-muted);padding:0.25rem 0;">Nog leeg. Tik onderin op een knopje om te vullen.</p>`;
       return;
     }
     items.forEach((item, idx) => {
@@ -844,12 +1029,21 @@ function renderDayPlan() {
       row.innerHTML = `
         <input type="checkbox" ${item.done ? 'checked' : ''} style="cursor:pointer;">
         <span style="flex:1;">${item.text}</span>
-        <button class="btn-action-icon btn-del" style="padding:0.2rem 0.4rem; font-size:0.7rem;">✕</button>
+        <button class="btn-action-icon btn-start" style="padding:0.2rem 0.4rem; font-size:0.7rem;" title="Start Nu">▶</button>
+        <button class="btn-action-icon btn-del" style="padding:0.2rem 0.4rem; font-size:0.7rem;" title="Verwijder van dag">✕</button>
       `;
       row.querySelector("input").onchange = (e) => {
         plan[slot][idx].done = e.target.checked;
         setStorage(STORAGE_DAY_PLAN, plan);
+        if (e.target.checked) {
+          triggerDopamineCelebration(false);
+          registerStreakActivity();
+        }
         renderDayPlan();
+      };
+      row.querySelector(".btn-start").onclick = () => {
+        originalTask = item.text;
+        startSessionWithTask(item.text, item.text);
       };
       row.querySelector(".btn-del").onclick = () => {
         plan[slot].splice(idx, 1);
@@ -861,19 +1055,73 @@ function renderDayPlan() {
   });
 }
 
-function addDayItemPrompt(slot) {
-  const text = prompt(`Wat plan je voor de ${slot}?`);
-  if (!text || !text.trim()) return;
-  const plan = getStorage(STORAGE_DAY_PLAN) || { ochtend: [], middag: [], avond: [] };
-  if (!plan[slot]) plan[slot] = [];
-  plan[slot].push({ text: text.trim(), done: false });
-  setStorage(STORAGE_DAY_PLAN, plan);
-  renderDayPlan();
+// Backlog Tray in Tab 3 renderen
+function renderDayBacklogTray() {
+  const thoughts = getStorage(STORAGE_THOUGHTS).filter(t => t.status === "Open");
+  dayBacklogList.innerHTML = "";
+
+  if (thoughts.length === 0) {
+    dayBacklogList.innerHTML = `<p style="font-size:0.75rem;color:var(--text-muted);text-align:center;padding:0.4rem;">Geen openstaande gedachten in de backlog.</p>`;
+    return;
+  }
+
+  thoughts.forEach((item) => {
+    const el = document.createElement("div");
+    el.className = "tray-item";
+    el.draggable = true;
+    el.innerHTML = `
+      <div style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-right:0.5rem;">
+        <span class="tag-badge ${item.context === 'Werk' ? 'tag-werk' : 'tag-prive'}">${item.context || 'Privé'}</span>
+        ${item.text}
+      </div>
+      <div class="slot-push-btns">
+        <button class="slot-push-btn" title="Plaats in Ochtend">🌅</button>
+        <button class="slot-push-btn" title="Plaats in Middag">☀️</button>
+        <button class="slot-push-btn" title="Plaats in Avond">🌙</button>
+      </div>
+    `;
+
+    const btns = el.querySelectorAll(".slot-push-btn");
+    btns[0].onclick = () => pushToDaySlot(item.id, item.text, 'ochtend');
+    btns[1].onclick = () => pushToDaySlot(item.id, item.text, 'middag');
+    btns[2].onclick = () => pushToDaySlot(item.id, item.text, 'avond');
+
+    el.ondragstart = (e) => {
+      e.dataTransfer.setData("text/plain", JSON.stringify({ id: item.id, text: item.text }));
+    };
+
+    dayBacklogList.appendChild(el);
+  });
 }
 
-addDayOchtendBtn.onclick = () => addDayItemPrompt('ochtend');
-addDayMiddagBtn.onclick = () => addDayItemPrompt('middag');
-addDayAvondBtn.onclick = () => addDayItemPrompt('avond');
+function pushToDaySlot(thoughtId, text, slot) {
+  const plan = getStorage(STORAGE_DAY_PLAN) || { ochtend: [], middag: [], avond: [] };
+  if (!plan[slot]) plan[slot] = [];
+  plan[slot].push({ text: text, done: false });
+  setStorage(STORAGE_DAY_PLAN, plan);
+
+  deleteThought(thoughtId);
+  renderDayPlan();
+  renderDayBacklogTray();
+}
+
+// Drag & drop dropzones voor blokken
+['ochtend', 'middag', 'avond'].forEach(slot => {
+  const block = document.getElementById(`block-${slot}`);
+  if (!block) return;
+  block.ondragover = (e) => { e.preventDefault(); block.classList.add("drag-over"); };
+  block.ondragleave = () => { block.classList.remove("drag-over"); };
+  block.ondrop = (e) => {
+    e.preventDefault();
+    block.classList.remove("drag-over");
+    try {
+      const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+      if (data && data.text) {
+        pushToDaySlot(data.id, data.text, slot);
+      }
+    } catch (err) {}
+  };
+});
 
 resetDayBtn.onclick = () => {
   if (confirm("Dagplanning leegmaken voor vandaag?")) {
@@ -925,8 +1173,11 @@ function completeThought(id, shouldSync = true) {
   list = list.filter(t => t.id !== id);
   setStorage(STORAGE_THOUGHTS, list);
   renderThoughts();
+  renderDayBacklogTray();
 
   if (shouldSync && item) {
+    triggerDopamineCelebration(false);
+    registerStreakActivity();
     syncToGoogleSheet({
       type: "thought",
       date: new Date().toLocaleString('nl-NL'),
@@ -942,6 +1193,7 @@ function deleteThought(id) {
   list = list.filter(t => t.id !== id);
   setStorage(STORAGE_THOUGHTS, list);
   renderThoughts();
+  renderDayBacklogTray();
 }
 
 function renderThoughts() {
@@ -1020,6 +1272,7 @@ saveParkBtn.onclick = () => {
     parkInput.value = "";
     parkModal.style.display = "none";
     renderThoughts();
+    renderDayBacklogTray();
   }
 };
 
@@ -1082,8 +1335,10 @@ exportCsvBtn.onclick = () => {
 };
 
 // Initialisaties
+updateStreakDisplay();
 renderTodayList();
 renderDayPlan();
+renderDayBacklogTray();
 updateVatDisplay();
 renderThoughts();
 renderLogs();
